@@ -16,6 +16,8 @@
     "concurrently": "^5.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "google-auth-library": "^6.0.5",
+    "googleapis": "^54.0.0",
     "mongoose": "^5.9.23"
   },
   "devDependencies": {
