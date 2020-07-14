@@ -1,5 +1,6 @@
 const express = require("express");
 const fetch = require('node-fetch');
+const Post = require("../models/Post");
 const router = express.Router();
 
 const issues = "issues";
@@ -25,19 +26,23 @@ function fetchIssues(org, repo) {
                 dict.forEach(function(d){
                     allAssignees.push(d.login);
                 });
-
                 var issue = {
-                    'url': data[i].url,
-                    'title': data[i].title,
-                    'body': data[i].body,
-                    'timestamp': data[i].created_at,
-                    'avatar': data[i].user.avatar_url,
-                    'id': data[i].id,
                     'creator': data[i].user.login,
-                    'state': data[i].state,
-                    'allAssignees': allAssignees
+                    'tags': [repo, org],
+                    'title': data[i].title,
+                    'type': "Github",
+                    'timestamp': new Date(data[i].created_at),
+                    'isPublic': true,
+                    'content': {
+                        'url': data[i].url,
+                        'body': data[i].body,
+                        'state': data[i].state,
+                        'allAssignees': allAssignees
+                    }
                 };
                 issues.push(issue);
+                addPostToDatabase(issue);
+
             }
             console.log(issues);
             return issues;
@@ -64,23 +69,43 @@ function fetchPRs(org, repo) {
                 });
 
                 var PR = {
-                    'url': data[i].url,
-                    'title': data[i].title,
-                    'body': data[i].body,
-                    'timestamp': data[i].created_at,
-                    'avatar': data[i].user.avatar_url,
-                    'id': data[i].id,
                     'creator': data[i].user.login,
-                    'state': data[i].state,
-                    'allAssignees': allAssignees
+                    'tags': [repo, org],
+                    'title': data[i].title,
+                    'type': "Github",
+                    'timestamp': new Date(data[i].created_at),
+                    'isPublic': true,
+                    'content': {
+                        'url': data[i].url,
+                        'body': data[i].body,
+                        'state': data[i].state,
+                        'allAssignees': allAssignees
+                    }
                 };
                 PRs.push(PR);
+                addPostToDatabase(PR);
             }
             console.log(PRs);
             return PRs;
         });
     } catch(err) {
         console.log(err);
+    }
+}
+
+async function addPostToDatabase(post) {
+    var toInsert = Post(post);
+    try {
+        const exists = await Post.findOne(post);
+        if(!exists) {
+            await toInsert.save();
+            console.log(`added ${post.title} to database.`);
+        }
+        else {
+            console.log(`${post.title} already exists.`);
+        }
+    } catch (e) {
+        console.log(e);
     }
 }
 
