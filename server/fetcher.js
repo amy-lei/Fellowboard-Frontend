@@ -25,7 +25,7 @@ const getVideos = async () => {
     });
 
     if (playlist.status !== 200) {
-        throw Error(`${playlist.status} eror: failed to GET uploads`);
+        throw Error(`${playlist.status} error: failed to GET uploads`);
     }
 
     const videos = playlist.data.items
@@ -36,7 +36,7 @@ const getVideos = async () => {
                 title: video.snippet.title,
                 description: video.snippet.description,
                 thumbnails: video.snippet.thumbnails,
-                player: video.player,
+                timestamp: video.snippet.publishedAt,
             }
         });
 
