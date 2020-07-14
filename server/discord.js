@@ -34,9 +34,6 @@ client.on('ready', async () => {
     console.log('Discord - Getting guild/server');
     const guild = client.guilds.resolve(DISCORD_GUILD);
     console.log('Discord - Got guild/server');
-    console.log('Discord - Getting users');
-    const users = getUsers(client, guild);
-    console.log(`Discord - Got users, ${users.length} found`);
     console.log('Discord - Fetching posts');
     const posts = await fetchPosts(client, guild)
     console.log(`Discord - Fetched posts: ${posts.length}`);
@@ -94,28 +91,6 @@ async function fetchPosts(client, guild) {
     posts = posts.flat();
 
     return posts;
-};
-
-function getUsers(client, guild) {
-    const members = guild.members.cache;
-    const users = [];
-    members.each(member => {
-        users.push(
-            {
-                "displayName": member.displayName,
-                "id": member.id,
-                "nickname": member.nickname,
-                "roles": member.roles.cache.array(),
-                "tag": member.user.tag,
-            }
-        )
-    });
-
-    users.forEach(user => {
-        user.roles = user.roles.map(role => role.name);
-    });
-
-    return users;
 };
 
 async function getPostsFromChannelMessages(channel) {
