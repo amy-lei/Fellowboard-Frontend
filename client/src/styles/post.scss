@@ -1,0 +1,76 @@
+.post {
+    position: relative;
+    width: 22rem;
+    margin: 1rem 0.5rem;
+    background-color: grey;
+    box-shadow: $smooth-shadow;
+    border-radius: $radius;
+
+    &-body {
+        padding: 1rem 1.5rem;
+        border-radius: $radius $radius 0 0;
+        background-color: $post-color;
+        &_header {
+            margin: 1rem 0;
+            .title {
+                font-size: $header-font-size;
+                margin-bottom: 0.25rem;
+            }
+            .creator,
+            .time {
+                display: block;
+                margin-bottom: 0.15rem;
+            }
+            .time {
+                font-style: italic;
+                color: $primary-caption-color;
+            }
+        }
+        &_content {
+            margin: 1rem 0;
+            
+            a {
+                text-decoration: none;
+                transition: 0.2s color ease-in;
+                &:hover {
+                    color: $primary-caption-color;
+                }
+            }
+            p {
+                margin-top: 0.5rem;
+            }
+        }
+        &_thumbnail {
+            width: 100%;
+        }
+    }
+    
+    &-tags {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0.75rem 1rem;
+        border-radius: 0 0 $radius $radius;
+        background-color: $tag-container-color;
+    }
+
+    &-pin {
+        opacity: .75;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 25px;
+        margin-top: 0.5rem;
+        margin-right: 0.5rem;
+        cursor: pointer;
+    }
+}
+
+.tag {
+    opacity: 75%;
+    color: white;
+    background-color: lightgray;
+    padding: 0.25rem 0.75rem;
+    border-radius: 25rem;
+    margin-right: 0.2rem;
+    margin-bottom: 0.4rem;
+}

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import './App.css';
+import { POSTS } from './FAKE_DATA';
+import Post from './components/post';
+import './styles/App.scss';
 
 function App() {
     // testing
@@ -11,7 +13,7 @@ function App() {
     });
     return (
         <div className="App">
-        Hello World!
+            {POSTS.map(post => <Post {...post} />)}
         </div>
     );
 }
