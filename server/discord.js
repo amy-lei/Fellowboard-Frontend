@@ -154,9 +154,6 @@ async function getPostsFromChannelMessages(channel) {
 
 }
 
-function setupDatabaseCollection() {
-
-}
 
 async function addPostsToDatabase(posts) {
     let added = 0;
