@@ -2,13 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
-    creator: Schema.Types.Mixed, // Mixed because it can be either user created
-    tags: [String],              // (ObjectId) or server created (String) from
-    title: {                     // fetching Discord, YouTube, Github).
+    creator: String,            // If it is a user created post, this will be  
+    tags: [String],             // the user's GitHub username.  Otherwise, it
+    title: {                    // will be `server`. 
         type: String,
         required: true,
     },
     content: Schema.Types.Mixed,
+    type: { type: String, required: true },
     timestamp: { type: Date, default: Date.now },
     isPublic: { type: Boolean, default: true },
 });
