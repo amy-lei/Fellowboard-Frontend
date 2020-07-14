@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     },
     fullname: String, 
     discord: String,
-    posts: { type: Array, default: [] },
+    pinnedPosts: { type: [ObjectId], default: [] },
 
 });
 
