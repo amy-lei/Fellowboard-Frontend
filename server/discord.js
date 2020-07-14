@@ -88,7 +88,7 @@ async function getPostsFromChannelMessages(channel) {
         //default fetch is 50 messages
         const channelMessages = await channel.messages.fetch();
         const channelName = `#${channel.name}`;
-        console.log(channelName);
+        // console.log(channelName);
         const posts = [];
 
         channelMessages.forEach(msg => {
@@ -98,7 +98,7 @@ async function getPostsFromChannelMessages(channel) {
                         posts.push({
                             "creator": "server",
                             "tags": [channelName],
-                            "title": e.title ? e.title : msg.content,
+                            "title": e.title ? e.title : `${channelName} Post`,
                             "type": "discord",
                             "timestamp": new Date(msg.createdTimestamp),
                             "isPublic": true,
