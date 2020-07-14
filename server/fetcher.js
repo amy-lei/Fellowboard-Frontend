@@ -35,7 +35,7 @@ const getVideos = async () => {
                 id: video.id,
                 title: video.snippet.title,
                 description: video.snippet.description,
-                thumbnails: video.snippet.thumbnails,
+                thumbnails: video.snippet.thumbnails.standard,
                 timestamp: video.snippet.publishedAt,
             }
         });
