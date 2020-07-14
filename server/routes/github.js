@@ -1,15 +1,15 @@
 const express = require("express");
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
 const router = express.Router();
 
-const issues = "issues"
-const pullRequests = "pulls"
+const issues = "issues";
+const pullRequests = "pulls";
 
 /*
 org and repo are hard-coded here, will need input from frontend to pass in params
 */
-var org = "MLH-Fellowship"
-var repo = "httpie"
+var org = "MLH-Fellowship";
+var repo = "httpie";
 
 
 function fetchIssues(org, repo) {
@@ -17,13 +17,13 @@ function fetchIssues(org, repo) {
         fetch(`https://api.github.com/repos/${org}/${repo}/${issues}`)
         .then(response => response.json())
         .then(data => {
-            var issues = []
+            var issues = [];
             for(var i=0; i<data.length; i++) {
-                var allAssignees = []
+                var allAssignees = [];
 
-                var dict = data[i].assignees
+                var dict = data[i].assignees;
                 dict.forEach(function(d){
-                    allAssignees.push(d.login)
+                    allAssignees.push(d.login);
                 });
 
                 var issue = {
@@ -36,14 +36,14 @@ function fetchIssues(org, repo) {
                     'creator': data[i].user.login,
                     'state': data[i].state,
                     'allAssignees': allAssignees
-                }
-                issues.push(issue)
+                };
+                issues.push(issue);
             }
-            console.log(issues)
-            return issues
-        })
+            console.log(issues);
+            return issues;
+        });
     } catch(err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
@@ -54,13 +54,13 @@ function fetchPRs(org, repo) {
         fetch(`https://api.github.com/repos/${org}/${repo}/${pullRequests}`)
         .then(response => response.json())
         .then(data => {
-            var PRs = []
+            var PRs = [];
             for(var i=0; i<data.length; i++) {
-                var allAssignees = []
+                var allAssignees = [];
 
-                var dict = data[i].assignees
+                var dict = data[i].assignees;
                 dict.forEach(function(d){
-                    allAssignees.push(d.login)
+                    allAssignees.push(d.login);
                 });
 
                 var PR = {
@@ -73,14 +73,14 @@ function fetchPRs(org, repo) {
                     'creator': data[i].user.login,
                     'state': data[i].state,
                     'allAssignees': allAssignees
-                }
-                PRs.push(PR)
+                };
+                PRs.push(PR);
             }
-            console.log(PRs)
-            return PRs
-        })
+            console.log(PRs);
+            return PRs;
+        });
     } catch(err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
