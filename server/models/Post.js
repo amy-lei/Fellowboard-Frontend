@@ -8,6 +8,7 @@ const PostSchema = new Schema({
         required: true,
     },
     content: Schema.Types.Mixed,
+    timestamp: { type: Date, default: Date.now },
     isPinned: { type: Boolean, default: false },
     isPublic: { type: Boolean, default: true },
 });
