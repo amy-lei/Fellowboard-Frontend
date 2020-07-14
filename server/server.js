@@ -7,9 +7,7 @@ const path = require("path");
 require("dotenv").config();
 
 // connect to database
-const MONGODB_SRV =
-  "mongodb+srv://gary:Meow-no@cluster0.u0nh6.mongodb.net/Dashboard?retryWrites=true&w=majority";
-const mongoConnectionURL = process.env.MONGODB_SRV || MONGODB_SRV;
+const mongoConnectionURL = process.env.MONGODB_SRV;
 mongoose
   .connect(mongoConnectionURL, {
     useNewUrlParser: true,
