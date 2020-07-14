@@ -1,16 +1,35 @@
-const axios = require('axios');
 const Discord = require('discord.js');
+const mongoose = require("mongoose");
+const fs = require('fs');
 const client = new Discord.Client();
+const Post = require("./models/Post");
 require('dotenv').config();
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const DISCORD_GUILD = '716052909271285803';
 
-async function discordFetch() {
-    return 0;
-};
+const mongoConnectionURL = process.env.MONGODB_SRV; 
+
+async function dbConnect() {
+    mongoose
+    .connect(mongoConnectionURL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        dbName: "Dashboard",
+    })
+    .then(() => {
+        console.log("Connected to MongoDB");
+        
+    })
+    .catch(err => console.log(`${err}: Failed to connect to MongoDB`));
+}
+
+
+const db = mongoose.connection;
 
 client.on('ready', async () => {
+    await dbConnect();
     console.log(`Logged in as ${client.user.tag}`);
     console.log('Discord - Getting guild/server');
     const guild = client.guilds.resolve(DISCORD_GUILD);
@@ -21,9 +40,24 @@ client.on('ready', async () => {
     console.log('Discord - Fetching posts');
     const posts = await fetchPosts(client, guild)
     console.log(`Discord - Fetched posts: ${posts.length}`);
+    console.log(`MongoDB - Uploading to database`);
+    const [added, skipped] = await addPostsToDatabase(posts);
+    console.log(`MongoDB - Uploaded posts to database: ${added} new posts added, ${skipped} old posts skipped`);
+    process.exit(0);
 });
 
 client.login(DISCORD_TOKEN);
+
+//for debug
+function writeToFile(posts) {
+    fs.writeFile("./discord_posts.json", JSON.stringify(posts), (err) => {
+        if(err) {
+            console.log(err);
+            return;
+        }
+    });
+    console.log("Wrote to file");
+}
 
 async function fetchPosts(client, guild) {
     //id for topics category (where all the golang, python, etc. channels are)
@@ -33,7 +67,7 @@ async function fetchPosts(client, guild) {
 
     const guildChannels = guild.channels.cache;
     const topicChannels = [];
-
+    //get all the channels 
     guildChannels.each(channel => {
         if(channel.parentID === CATEGORY_ID) {
             topicChannels.push({
@@ -45,6 +79,7 @@ async function fetchPosts(client, guild) {
 
     let posts = [];
 
+    //get the posts with links for each channel
     for(let i = 0; i < topicChannels.length; i++) {
         const channel = topicChannels[i];
         try {
@@ -55,10 +90,10 @@ async function fetchPosts(client, guild) {
             console.log(e);
         }
     }
+    //flatten array from [[Posts], [Posts], [Posts]] to [Post, Post, Post, Post...]
     posts = posts.flat();
 
     return posts;
-
 };
 
 function getUsers(client, guild) {
@@ -117,4 +152,33 @@ async function getPostsFromChannelMessages(channel) {
         console.log(e);
     }
 
+}
+
+function setupDatabaseCollection() {
+
+}
+
+async function addPostsToDatabase(posts) {
+    let added = 0;
+    let skipped = 0;
+    for(let i = 0; i < posts.length; i++) {
+        
+        const post = Post(posts[i]);
+        
+        try {
+            const exists = await Post.findOne(posts[i]);
+            if(!exists) {
+                await post.save();
+                console.log(`added ${post.title} to database`);
+                added++;
+            }
+            else {
+                console.log(`${post.title} already exists, skipping`);
+                skipped++;
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    return [added, skipped];
 }
