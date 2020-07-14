@@ -1,9 +1,9 @@
 const express = require("express");
+const fetch = require('node-fetch');
 const router = express.Router();
+var tools = require('./routes/github');
 
-router.get("/", (req, res) => {
-    res.send({"foo": "bar"});
-});
+tools.fetchIssues("MLH-Fellowship", "click")
 
 module.exports = router;
 
