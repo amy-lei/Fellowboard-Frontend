@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const Post = require('./models/Post');
 require('dotenv').config();
 
-// connect to database
 const mongoConnectionURL = process.env.MONGODB_SRV; 
 
 const connectToDB = async () => {
@@ -18,15 +17,26 @@ const connectToDB = async () => {
     .catch(err => console.log(`${err}: Failed to connect to MongoDB`));
 }
 
-const getVideos = async () => {
-    await connectToDB();
+/**
+ * Fetch all uploaded videos from channelID, and filters it by checking for `filterBy`
+ * in the title.  filterBy is case sensative.  If no tags are passed in, the filterBy
+ * is used by default.
+ * 
+ * @param {String} channelId 
+ * @param {String} filterBy Use an empty string if no filter is desired.
+ * @param {String} tag
+ */
+const getUploadedVideos = async (channelId, filterBy = "MLH Fellowship", tags = null) => {
+    if (!tags) {
+        tags = [filterBy.replace(" ", "-")];
+    }
 
     // get the MLH channel
     const youtube = google.youtube("v3");
     const channel = await youtube.channels.list({
         auth: process.env.YOUTUBE_API_KEY,
         part: "contentDetails,status",
-        id: "UCBYaqTVeO-oQW2AlmZVj-Fg"
+        id: channelId,
     });
 
     if (channel.status !== 200) {
@@ -48,12 +58,12 @@ const getVideos = async () => {
 
     // keep only MLH Fellowship videos, and keep only relevant info
     const videos = playlist.data.items
-        .filter((video) => video.snippet.title.includes('MLH Fellowship'))
+        .filter((video) => video.snippet.title.includes(filterBy))
         .map((video) => {
             return {
+                tags,
                 creator: "server",
                 type: "youtube",
-                tags: ["MLH-Workshop"],
                 title: video.snippet.title,
                 content: {
                     id: video.contentDetails.videoId,
@@ -64,9 +74,16 @@ const getVideos = async () => {
                 isPublic: true,
             }
         });
-    console.log(`found ${videos.length} videos`);
+    return videos
+}
 
-    // add videos to db iff they don't already exist
+/**
+ * Adds list of videos to DB, given that the videos are already formatted
+ * to match the Post schema.
+ * 
+ * @param {[Object]} videos 
+ */
+const addVideosToDb = async (videos) => {
     const allVideos = [];
     for (let i = 0; i < videos.length; i++) {
         const post = Post(videos[i]);
@@ -76,13 +93,28 @@ const getVideos = async () => {
             allVideos.push(savedPost);
         }
     }
-    console.log(allVideos);
-    console.log(`added ${allVideos.length} videos`);
+    return allVideos;
+}
+
+const prepopulateVideos = async () => {
+    const MLH_CHANNEL_ID = "UCBYaqTVeO-oQW2AlmZVj-Fg";
+    
+    // connect to DB
+    await connectToDB();
+    
+    // fetch videos
+    const videos = await getUploadedVideos(MLH_CHANNEL_ID, "MLH Fellowship", "MLH-Workshop");
+    console.log(`Fetched ${videos.length} videos that contain MLH Fellowship in its name`);
+
+    // add to DB if unique
+    const addedVideos = await addVideosToDb(videos);
+    console.log(`Added ${addedVideos.length} videos to the DB`);
+
     process.exit(0);
 }
 
 if (module === require.main) {
-    getVideos().catch(console.error);
+    prepopulateVideos().catch(console.error);
 }
-module.exports = getVideos;
+module.exports = { getUploadedVideos, addVideosToDb };
 
