@@ -1,26 +1,30 @@
-import React, { useEffect } from 'react';
-import { POSTS, USER } from './FAKE_DATA';
-import Post from './components/Post';
-import SearchBar from './components/SearchBar';
-import Profile from './components/Profile';
-import './styles/App.scss';
-import Masonry from "react-masonry-css";
-import { masonryBreakpoints } from "./constants";
+import React, { createContext, useReducer } from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import { initialState, reducer } from "./store/reducer";
+
+
+export const AuthContext = createContext();
 
 function App() {
-    return (
-        <div className="App">
-            <Profile {...USER} />
-            <SearchBar/>
-            <Masonry
-              className="my-masonry-grid posts"
-              columnClassName="my-masonry-grid_column"
-                breakpointCols={masonryBreakpoints}
-            >
-                {POSTS.map(post => <Post {...post} />)}
-            </Masonry>
-        </div>
-    );
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        state,
+        dispatch
+      }}
+    >
+    <Router>
+      <Switch>
+        <Route path="/login" component={Login}/>
+        <Route path="/" component={Home}/>
+      </Switch>
+    </Router>
+    </AuthContext.Provider>
+  );
 }
 
 export default App;
