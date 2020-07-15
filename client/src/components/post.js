@@ -11,7 +11,7 @@ function Post(props) {
     switch(props.type) {
         case "text":
             content = (
-                <div className='post-body_content'>
+                <div className='post-body_content text'>
                     {"link" in props.content 
                         && (
                         <>
@@ -29,10 +29,16 @@ function Post(props) {
             break;
         case "youtube":
             content = (
+            <div className='post-body_content youtube'>
+                <a href={`https://www.youtube.com/watch?v=${props.content.id}`} target="_blank">
+                    &#128279;  
+                    Video link
+                </a>
                 <img 
                     className='post-body_thumbnail' 
                     src={props.content.thumbnails.url}
-                />
+                /> 
+            </div>
             );
             break;
     }

@@ -26,8 +26,11 @@
                 color: $primary-caption-color;
             }
         }
-        &_content {
+        &_content.youtube > a,
+        &_content.text {
             padding: 0 1.5rem 2rem 1.5rem;
+        }
+        &_content {
             
             a {
                 text-decoration: none;
@@ -41,6 +44,7 @@
             }
         }
         &_thumbnail {
+            margin-top: 0.75rem;
             width: 100%;
         }
     }

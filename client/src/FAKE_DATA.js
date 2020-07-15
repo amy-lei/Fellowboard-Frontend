@@ -13,6 +13,18 @@ export const POSTS = [
     },
     {
         creator: "amy-lei",
+        type: "text",
+        tags: ["tag1", "tag2", "tag4","kjfna-ukcnaca"],
+        title: "How to MERN",
+        content: {
+            link: "https://github.com/amy-lei/dashboard/pull/7/files",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        },
+        timestamp: new Date(),
+        isPublic: true,
+    },
+    {
+        creator: "amy-lei",
         type: "youtube",
         tags: ["sample", "hash", "tag"],
         title: 'MLH Fellowship: Pallets Live Q&A with David Lord',
