@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 const mongoose = require("mongoose");
 const Post = require("../models/Post");
 
-// connect to database
 const mongoConnectionURL = process.env.MONGODB_SRV; 
 
 const connectToDB = async () => {
@@ -43,16 +42,17 @@ async function fetchIssues(org, repo) {
                     allAssignees.push(d.login);
                 });
                 var issue = {
-                    'creator': data[i].user.login,
+                    'creator': 'server',
                     'tags': [repo, org],
                     'title': data[i].title,
-                    'type': "Github",
+                    'type': 'Github',
                     'timestamp': new Date(data[i].created_at),
                     'isPublic': true,
                     'content': {
                         'url': data[i].url,
                         'body': data[i].body,
                         'state': data[i].state,
+                        'creator': data[i].user.login,
                         'allAssignees': allAssignees
                     }
                 };
@@ -84,7 +84,7 @@ async function fetchPRs(org, repo) {
                 });
 
                 var PR = {
-                    'creator': data[i].user.login,
+                    'creator': 'server',
                     'tags': [repo, org],
                     'title': data[i].title,
                     'type': "Github",
@@ -94,6 +94,7 @@ async function fetchPRs(org, repo) {
                         'url': data[i].url,
                         'body': data[i].body,
                         'state': data[i].state,
+                        'creator': data[i].user.login,
                         'allAssignees': allAssignees
                     }
                 };
