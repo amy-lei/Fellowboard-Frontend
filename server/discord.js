@@ -47,7 +47,8 @@ client.login(DISCORD_TOKEN);
 
 //for debug
 function writeToFile(posts) {
-    fs.writeFile("./discord_posts.json", JSON.stringify(posts), (err) => {
+    const f = JSON.stringify(posts);
+    fs.writeFileSync("./discord_posts.json", f, (err) => {
         if(err) {
             console.log(err);
             return;
@@ -105,18 +106,36 @@ async function getPostsFromChannelMessages(channel) {
             if (msg.content.includes('https://') || msg.content.includes('http://')) {
                 if(msg.embeds || msg.embeds.length) {
                     msg.embeds.forEach(e => {
-                        posts.push({
-                            "creator": "server",
-                            "tags": [channelName],
-                            "title": e.title ? e.title : `${channelName} Post`,
-                            "type": "discord",
-                            "timestamp": new Date(msg.createdTimestamp),
-                            "isPublic": true,
-                            "content": {
-                                "url": e.url,
-                                "description": e.description ? e.description : ""
-                            }
-                        });
+                        if (e.thumbnail) {
+                            posts.push({
+                                "creator": "server",
+                                "tags": [channelName],
+                                "title": e.title ? e.title : `${channelName} Post`,
+                                "type": "discord",
+                                "timestamp": new Date(msg.createdTimestamp),
+                                "isPublic": true,
+                                "content": {
+                                    "url": e.url,
+                                    "description": e.description ? e.description : "",
+                                    "thumbnail": e.thumbnail //thumbnail is object with url, proxyURL, height, width
+                                }
+                            });
+                        }
+                        else {
+                            posts.push({
+                                "creator": "server",
+                                "tags": [channelName],
+                                "title": e.title ? e.title : `${channelName} Post`,
+                                "type": "text",
+                                "timestamp": new Date(msg.createdTimestamp),
+                                "isPublic": true,
+                                "content": {
+                                    "url": e.url,
+                                    "description": e.description ? e.description : "",
+                                }
+                            });
+                        }
+                        
                     })
                     
                 }
