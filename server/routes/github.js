@@ -1,7 +1,23 @@
 const express = require("express");
 const fetch = require('node-fetch');
+const mongoose = require("mongoose");
 const Post = require("../models/Post");
-const router = express.Router();
+
+// connect to database
+const mongoConnectionURL = process.env.MONGODB_SRV; 
+
+const connectToDB = async () => {
+    mongoose
+    .connect(mongoConnectionURL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        dbName: "Dashboard",
+    })
+    .then(() => console.log("Connected to MongoDB"))
+    .catch(err => console.log(`${err}: Failed to connect to MongoDB`));
+}
+
 
 const issues = "issues";
 const pullRequests = "pulls";
@@ -12,8 +28,8 @@ org and repo are hard-coded here, will need input from frontend to pass in param
 var org = "MLH-Fellowship";
 var repo = "httpie";
 
-
-function fetchIssues(org, repo) {
+async function fetchIssues(org, repo) {
+    await connectToDB();
     try {
         fetch(`https://api.github.com/repos/${org}/${repo}/${issues}`)
         .then(response => response.json())
@@ -52,9 +68,8 @@ function fetchIssues(org, repo) {
     }
 }
 
-
-
-function fetchPRs(org, repo) {
+async function fetchPRs(org, repo) {
+    await connectToDB();
     try {
         fetch(`https://api.github.com/repos/${org}/${repo}/${pullRequests}`)
         .then(response => response.json())
