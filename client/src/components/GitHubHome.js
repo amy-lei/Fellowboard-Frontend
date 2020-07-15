@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
-import "./GitHubHome.css";
+import "../styles/GitHubHome.css";
 
 export default function Home() {
   const { state, dispatch } = useContext(AuthContext);

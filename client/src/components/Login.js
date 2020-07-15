@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
-import "./Login.css";
+import "../styles/Login.css";
 
 export default function Login() {
   const { state, dispatch } = useContext(AuthContext);
