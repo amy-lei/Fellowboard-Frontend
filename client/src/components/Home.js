@@ -8,7 +8,6 @@ import Profile from './Profile';
 import '../styles/App.scss';
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
-import "../styles/GitHubHome.css";
 
 export default function Home() {
   const [ filter, setFilter ] = useState('');
@@ -37,16 +36,18 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <button onClick={handleLogout}>Logout</button>
-      <Profile {...USER} />
-          <SearchBar setFilter={setFilter}/>
-          <Masonry
-            className="my-masonry-grid posts"
-            columnClassName="my-masonry-grid_column"
-              breakpointCols={masonryBreakpoints}
-          >
-              {allPosts}
-          </Masonry>
+      <button className='logout-btn' onClick={handleLogout}>Logout</button>
+      <div className="header">
+        <Profile {...USER} />
+        <SearchBar setFilter={setFilter}/>
+      </div>
+      <Masonry
+        className="my-masonry-grid posts"
+        columnClassName="my-masonry-grid_column"
+          breakpointCols={masonryBreakpoints}
+      >
+          {allPosts}
+      </Masonry>
     </div>
   );
 }
