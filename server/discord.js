@@ -114,7 +114,7 @@ async function getPostsFromChannelMessages(channel) {
                             "isPublic": true,
                             "content": {
                                 "url": e.url,
-                                "desc": e.description ? e.description : ""
+                                "description": e.description ? e.description : ""
                             }
                         });
                     })
