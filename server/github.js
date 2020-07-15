@@ -144,7 +144,7 @@ const query = `
   }
 }`;
 
-async function getPodName(name, description) {
+function getPodName(name, description) {
     if (name.startsWith('Pod')) {
         return description === '' ? name : description;
     } else {
