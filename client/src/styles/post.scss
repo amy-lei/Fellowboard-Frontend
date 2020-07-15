@@ -7,11 +7,11 @@
     border-radius: $radius;
 
     &-body {
-        padding: 1rem 1.5rem;
         border-radius: $radius $radius 0 0;
         background-color: $post-color;
         &_header {
-            margin: 1rem 0;
+            padding: 2rem 1.5rem 1rem 1.5rem;
+            margin-top: 1rem;
             .title {
                 font-size: $header-font-size;
                 margin-bottom: 0.25rem;
@@ -27,7 +27,7 @@
             }
         }
         &_content {
-            margin: 1rem 0;
+            padding: 0 1.5rem 2rem 1.5rem;
             
             a {
                 text-decoration: none;

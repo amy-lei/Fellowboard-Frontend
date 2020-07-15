@@ -41,7 +41,7 @@ function Post(props) {
         <span 
             key={i}
             className='tag' 
-            style={{backgroundColor: '#' + toHexColor(tag)}}
+            style={{backgroundColor: toHexColor(tag)}}
         >
             {`#${tag}`}
         </span>
