@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
 const mongoose = require("mongoose");
-const fs = require("fs");
 const Post = require("../models/Post");
 require("dotenv").config();
 
@@ -176,11 +175,11 @@ async function fetchUsers() {
   
       const members = team.members.nodes;
       members.forEach(user => {
-          var user = {
+          var singleUser = {
             'creator': 'server',
             'tags': ['contact'],
-            'title': user.name,
-            'type': "contacts",
+            'title': (user.name !== null) ? user.name : user.login.toLowerCase(),
+            'type': 'contacts',
             'isPublic': true,
             'content': {
                 'username': user.login.toLowerCase(),
@@ -193,13 +192,11 @@ async function fetchUsers() {
 
             }
           };
-
-        users.push(user);
-        addPostToDatabase(user);
-
+        users.push(singleUser);
+        addPostToDatabase(singleUser);
       });
     });
-    console.log(users)
+    // console.log(users)
     return users;
   }
 
@@ -211,8 +208,7 @@ async function addPostToDatabase(post) {
         if(!exists) {
             await toInsert.save();
             console.log(`added ${post.title} to database.`);
-        }
-        else {
+        } else {
             console.log(`${post.title} already exists.`);
         }
     } catch (e) {
