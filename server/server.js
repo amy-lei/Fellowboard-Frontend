@@ -45,7 +45,6 @@ if (process.env.ENV === "PRODUCTION") {
 
 app.get("/authenticate/user-posts", (req, res) => {
   const { ghUsername, githubId, avatarUrl } = req.query;
-  console.log(ghUsername, githubId, avatarUrl);
   User.find({ username: ghUsername })
     .then(async (result) => {
       if (result.length == 0) {
