@@ -87,7 +87,7 @@ async function fetchPRs(org, repo) {
                     'creator': 'server',
                     'tags': [repo, org],
                     'title': data[i].title,
-                    'type': "Github",
+                    'type': "github",
                     'timestamp': new Date(data[i].created_at),
                     'isPublic': true,
                     'content': {
