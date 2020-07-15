@@ -16,7 +16,7 @@ function Post(props) {
                         && (
                         <>
                             &#128279;  
-                            <a href={props.content.link} target="_blank">
+                            <a href={props.content.url} target="_blank">
                                 Resource 
                             </a>
                         </>
