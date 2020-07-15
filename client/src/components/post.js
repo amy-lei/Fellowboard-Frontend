@@ -8,7 +8,8 @@ function Post(props) {
     const [ isHovered, setIsHovered ] = useState(isPinned);
 
     let content;
-    switch(props.type) {
+    switch(props.type.lower()) {
+        case "discord":
         case "text":
             content = (
                 <div className='post-body_content text'>
@@ -41,6 +42,8 @@ function Post(props) {
             </div>
             );
             break;
+        default:
+            break; // TODO: account for discord
     }
 
     const tags = props.tags.map((tag, i) => 
