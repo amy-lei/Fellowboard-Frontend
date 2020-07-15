@@ -106,3 +106,12 @@ export const POSTS = [
         isPublic: true,
     },
 ];
+
+export const USER = {
+    githubId: "123456",
+    username: "amy-lei",
+    fullname: "Amy Lei",
+    avatarUrl: "",
+    discord: null,
+    pinnedPosts: POSTS,
+}
