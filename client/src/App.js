@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { POSTS } from './FAKE_DATA';
-import Post from './components/post';
+import Post from './components/Post';
+import SearchBar from './components/SearchBar';
 import './styles/App.scss';
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "./constants";
@@ -8,6 +9,7 @@ import { masonryBreakpoints } from "./constants";
 function App() {
     return (
         <div className="App">
+            <SearchBar/>
             <Masonry
               className="my-masonry-grid posts"
               columnClassName="my-masonry-grid_column"

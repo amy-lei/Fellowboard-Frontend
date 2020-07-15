@@ -11,19 +11,18 @@
 
 /* Style your items */
 .my-masonry-grid_column > .post { /* change div to reference your elements you put in <Masonry> */
-    background: grey;
     margin-bottom: 30px;
 }
 
 .post {
     position: relative;
     width: 100%;
-    background-color: grey;
-    box-shadow: $smooth-shadow;
+    // box-shadow: $smooth-shadow;
     border-radius: $radius;
 
     &-body {
-        border-radius: $radius $radius 0 0;
+        border-radius: $radius;
+        // border-radius: $radius $radius 0 0;
         background-color: $post-color;
         &_header {
             padding: 2rem 1.5rem 1rem 1.5rem;

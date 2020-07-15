@@ -1,5 +1,6 @@
 @import './base.scss';
 @import './post.scss';
+@import './search.scss';
 
 * {
     padding: 0;
@@ -9,6 +10,10 @@
     font-weight: 400;
     font-size: $body-font-size;
     color: $primary-font-color;
+}
+
+body {
+    background-color: $background-color;
 }
 
 h1,
@@ -23,20 +28,4 @@ h6 {
 .App {
     width: 85vw;
     margin: auto;
-}
-.my-masonry-grid {
-    display: -webkit-box; /* Not needed if autoprefixing */
-    display: -ms-flexbox; /* Not needed if autoprefixing */
-    display: flex;
-    margin-left: -30px; /* gutter size offset */
-}
-.my-masonry-grid_column {
-    padding-left: 30px; /* gutter size */
-    background-clip: padding-box;
-}
-
-/* Style your items */
-.my-masonry-grid_column > .post { /* change div to reference your elements you put in <Masonry> */
-    background: grey;
-    margin-bottom: 30px;
 }
