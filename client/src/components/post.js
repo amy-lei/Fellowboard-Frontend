@@ -8,7 +8,7 @@ function Post(props) {
     const [ isHovered, setIsHovered ] = useState(isPinned);
 
     let content;
-    switch(props.type.lower()) {
+    switch(props.type.toLowerCase()) {
         case "discord":
         case "text":
             content = (
