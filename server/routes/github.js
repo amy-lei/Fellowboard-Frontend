@@ -1,7 +1,8 @@
-const express = require("express");
 const fetch = require('node-fetch');
 const mongoose = require("mongoose");
+const fs = require("fs");
 const Post = require("../models/Post");
+require("dotenv").config();
 
 const mongoConnectionURL = process.env.MONGODB_SRV; 
 
@@ -45,7 +46,7 @@ async function fetchIssues(org, repo) {
                     'creator': 'server',
                     'tags': [repo, org],
                     'title': data[i].title,
-                    'type': 'Github',
+                    'type': 'github',
                     'timestamp': new Date(data[i].created_at),
                     'isPublic': true,
                     'content': {
@@ -109,6 +110,100 @@ async function fetchPRs(org, repo) {
     }
 }
 
+const query = `
+{
+  organization(login: "MLH-Fellowship") {
+    teams(first: 50) {
+      edges {
+        node {
+          description
+          name
+          id
+          members {
+            nodes {
+              avatarUrl
+              bio
+              email
+              followers {
+                totalCount
+              }
+              following {
+                totalCount
+              }
+              location
+              login
+              name
+              twitterUsername
+              url
+              websiteUrl
+              company
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+async function getPodName(name, description) {
+    if (name.startsWith('Pod')) {
+        return description === '' ? name : description;
+    } else {
+        return name;
+    }
+}
+
+async function fetchUsers() {
+    const response = await fetch(
+      'https://api.github.com/graphql',
+      {
+        method: 'post',
+        headers: {
+          Authorization: "bearer " + process.env.GITHUB_TOKEN,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query })
+      },
+    );
+    const json = await response.json();
+    const teams = json.data.organization.teams.edges;
+  
+    const users = [];
+    teams.forEach(obj => {
+      team = obj.node;
+  
+      if (['TTP Fellows (Summer 2020)', 'CTF', 'MLH Fellows (Summer 2020)'].includes(team.name)) return;
+  
+      const members = team.members.nodes;
+      members.forEach(user => {
+          var user = {
+            'creator': 'server',
+            'tags': ['contact'],
+            'title': user.name,
+            'type': "contacts",
+            'isPublic': true,
+            'content': {
+                'username': user.login.toLowerCase(),
+                'avatar': user.avatarUrl,
+                'email': user.email,
+                'github_url':user.url,
+                'bio': user.bio,
+                'location': user.location,
+                'pod': getPodName(team.name, team.description)
+
+            }
+          };
+
+        users.push(user);
+        addPostToDatabase(user);
+
+      });
+    });
+    console.log(users)
+    return users;
+  }
+
+
 async function addPostToDatabase(post) {
     var toInsert = Post(post);
     try {
@@ -125,4 +220,4 @@ async function addPostToDatabase(post) {
     }
 }
 
-module.exports = {fetchIssues, fetchPRs};
+module.exports = {fetchIssues, fetchPRs, fetchUsers};

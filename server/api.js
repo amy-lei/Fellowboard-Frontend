@@ -3,8 +3,9 @@ const fetch = require('node-fetch');
 const router = express.Router();
 const tools = require('./routes/github');
 
-tools.fetchIssues("MLH-Fellowship", "click")
-tools.fetchPRs("MLH-Fellowship", "httpie")
+// tools.fetchIssues("MLH-Fellowship", "click")
+// tools.fetchPRs("MLH-Fellowship", "httpie")
+tools.fetchUsers();
 
 module.exports = router;
 
