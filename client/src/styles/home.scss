@@ -24,6 +24,15 @@
   align-items: center;
 }
 
+@media ( max-width: 1000px) {
+  .header {
+    justify-content: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+}
+
 .logout-btn {
   position: absolute;
   right: 7.5vw;
