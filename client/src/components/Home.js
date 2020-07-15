@@ -28,7 +28,7 @@ export default function Home() {
   const allPosts = POSTS
     .filter(post => {
       if (filter.startsWith('#')) {
-        return post.tags.find((tag) =>('#' + tag).includes(filter));
+        return post.tags.find((tag) =>('#' + tag).startsWith(filter));
       }
       return post.title.toLowerCase().includes(filter.toLowerCase());
     })
