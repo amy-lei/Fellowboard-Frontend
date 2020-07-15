@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
 import "../styles/Login.css";
+import { getUserPosts } from "../store/reducer/index";
 
 export default function Login() {
   const { state, dispatch } = useContext(AuthContext);
@@ -35,10 +36,15 @@ export default function Login() {
         body: JSON.stringify(requestData),
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then(async (data) => {
           dispatch({
             type: "LOGIN",
             payload: { user: data, isLoggedIn: true },
+          });
+          const userPosts = await getUserPosts(data, proxy_url);
+          dispatch({
+            type: "POSTS",
+            payload: { posts: userPosts },
           });
         })
         .catch((error) => {

@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const FormData = require("form-data");
 const fetch = require("node-fetch");
 const path = require("path");
+const User = require("./models/User");
+const Post = require("./models/Post");
 require("dotenv").config();
 
 // connect to database
@@ -40,6 +42,24 @@ if (process.env.ENV === "PRODUCTION") {
     res.sendFile(path.join(reactPath, "index.html"));
   });
 }
+
+app.get("/authenticate/user-posts", (req, res) => {
+  const { ghUsername, githubId, avatarUrl } = req.query;
+  console.log(ghUsername, githubId, avatarUrl);
+  User.find({ username: ghUsername })
+    .then(async (result) => {
+      if (result.length == 0) {
+        const newUser = new User({ githubId, username: ghUsername, avatarUrl });
+        const savedUser = await newUser.save();
+      }
+      return Post.find({ $or: [{ creator: ghUsername }, { isPublic: true }] });
+    })
+    .then((posts) => res.send(posts))
+    .catch((error) => {
+      console.error(error);
+      res.send("An error ocurred");
+    });
+});
 
 app.post("/authenticate", (req, res) => {
   const { client_id, redirect_uri, client_secret, code } = req.body;
