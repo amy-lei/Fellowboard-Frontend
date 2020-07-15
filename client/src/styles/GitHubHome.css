@@ -1,9 +1,9 @@
-.container {
+/* .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   font-family: Arial;
-}
+} */
 
 .container > button {
   all: unset;
@@ -23,7 +23,7 @@
   background-color: #fff;
   color: #0041c2;
 }
-
+/* 
 .container > div {
   height: 100%;
   width: 100%;
@@ -53,4 +53,4 @@
 .container > div > .content > span:not(:nth-child(2)) {
   margin-top: 8px;
   font-size: 14px;
-}
+} */

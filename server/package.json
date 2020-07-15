@@ -7,6 +7,7 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "disc": "node discord.js",
+    "github": "node github.js",
     "youtube": "node youtube.js"
   },
   "author": "",

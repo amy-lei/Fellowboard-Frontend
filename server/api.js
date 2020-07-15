@@ -1,9 +1,9 @@
 const express = require("express");
 const fetch = require('node-fetch');
 const router = express.Router();
-const tools = require('./routes/github');
+// const tools = require('./github');
 
-tools.fetchUsers();
+// tools.fetchUsers();
 
 module.exports = router;
 

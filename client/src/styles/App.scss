@@ -1,0 +1,32 @@
+@import './base.scss';
+@import './post.scss';
+@import './search.scss';
+@import './profile.scss';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: $body-font-size;
+    color: $primary-font-color;
+}
+
+body {
+    background-color: $background-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.home-container {
+    width: 85vw;
+    margin: auto;
+}

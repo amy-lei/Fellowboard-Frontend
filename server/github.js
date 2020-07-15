@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const mongoose = require("mongoose");
-const Post = require("../models/Post");
+const Post = require("./models/Post");
 require("dotenv").config();
 
 const mongoConnectionURL = process.env.MONGODB_SRV; 
@@ -153,6 +153,7 @@ async function getPodName(name, description) {
 }
 
 async function fetchUsers() {
+    await connectToDB();
     const response = await fetch(
       'https://api.github.com/graphql',
       {
@@ -166,13 +167,13 @@ async function fetchUsers() {
     );
     const json = await response.json();
     const teams = json.data.organization.teams.edges;
-  
+
     const users = [];
     teams.forEach(obj => {
       team = obj.node;
-  
+
       if (['TTP Fellows (Summer 2020)', 'CTF', 'MLH Fellows (Summer 2020)'].includes(team.name)) return;
-  
+
       const members = team.members.nodes;
       members.forEach(user => {
           var singleUser = {
@@ -197,9 +198,7 @@ async function fetchUsers() {
       });
     });
     // console.log(users)
-    return users;
   }
-
 
 async function addPostToDatabase(post) {
     var toInsert = Post(post);
@@ -214,6 +213,10 @@ async function addPostToDatabase(post) {
     } catch (e) {
         console.log(e);
     }
+}
+
+if (module === require.main) {
+  fetchUsers().catch(console.error);
 }
 
 module.exports = {fetchIssues, fetchPRs, fetchUsers};
