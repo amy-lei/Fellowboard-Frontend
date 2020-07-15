@@ -10,3 +10,9 @@ export const TAG_COLORS = [
     '4A6163',
     '5BAEA3',
 ];
+
+export const masonryBreakpoints = {
+    default: 3,
+    '1100': 2,
+    '750': 1,
+}
