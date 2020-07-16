@@ -15,6 +15,7 @@ export const initialState = {
   redirect_uri: process.env.REACT_APP_REDIRECT_URI,
   client_secret: process.env.REACT_APP_CLIENT_SECRET,
   proxy_url: process.env.REACT_APP_PROXY_URL,
+  dbUser: {},
   posts: [],
 };
 
@@ -37,7 +38,11 @@ export const reducer = (state, action) => {
       return { ...state, isLoggedIn: false, user: null };
     }
     case "POSTS": {
-      return { ...state, posts: action.payload.posts };
+      return {
+        ...state,
+        posts: action.payload.posts,
+        dbUser: action.payload.dbUser,
+      };
     }
     default:
       return state;

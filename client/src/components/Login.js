@@ -41,10 +41,10 @@ export default function Login() {
             type: "LOGIN",
             payload: { user: data, isLoggedIn: true },
           });
-          const userPosts = await getUserPosts(data, proxy_url);
+          const { dbUser, posts } = await getUserPosts(data, proxy_url);
           dispatch({
             type: "POSTS",
-            payload: { posts: userPosts },
+            payload: { posts, dbUser },
           });
         })
         .catch((error) => {

@@ -15,10 +15,10 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      const userPosts = await getUserPosts(state.user, state.proxy_url);
+      const { dbUser, posts } = await getUserPosts(state.user, state.proxy_url);
       dispatch({
         type: "POSTS",
-        payload: { posts: userPosts },
+        payload: { posts, dbUser },
       });
     }
     fetchData();

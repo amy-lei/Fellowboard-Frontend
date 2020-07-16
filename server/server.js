@@ -44,16 +44,16 @@ if (process.env.ENV === "PRODUCTION") {
 }
 
 app.get("/authenticate/user-posts", (req, res) => {
-  const { ghUsername, githubId, avatarUrl } = req.query;
-  User.find({ username: ghUsername })
-    .then(async (result) => {
-      if (result.length == 0) {
-        const newUser = new User({ githubId, username: ghUsername, avatarUrl });
-        const savedUser = await newUser.save();
-      }
-      return Post.find({ $or: [{ creator: ghUsername }, { isPublic: true }] });
+  const { ghUsername } = req.query;
+  const queries = [
+    User.find({ username: ghUsername }),
+    Post.find({ $or: [{ creator: ghUsername }, { isPublic: true }] }),
+  ];
+  Promise.all(queries)
+    .then(([dbUser, posts]) => {
+      const result = { dbUser, posts };
+      res.send(result);
     })
-    .then((posts) => res.send(posts))
     .catch((error) => {
       console.error(error);
       res.send("An error ocurred");
@@ -86,7 +86,22 @@ app.post("/authenticate", (req, res) => {
     })
     .then((response) => response.json())
     .then((response) => {
-      return res.status(200).json(response);
+      const {
+        avatar_url: avatarUrl,
+        login: ghUsername,
+        id: githubId,
+      } = response;
+      User.find({ username: ghUsername }).then(async (result) => {
+        if (result.length == 0) {
+          const newUser = new User({
+            githubId,
+            username: ghUsername,
+            avatarUrl,
+          });
+          const savedUser = await newUser.save();
+        }
+        return res.status(200).json(response);
+      });
     })
     .catch((error) => {
       return res.status(400).json(error);
