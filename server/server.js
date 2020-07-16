@@ -90,6 +90,7 @@ app.post("/authenticate", (req, res) => {
         const {
           avatar_url: avatarUrl,
           login: ghUsername,
+          name: fullname,
           id: githubId,
         } = response;
         const existingUser = await User.find({ username: ghUsername });
@@ -97,6 +98,7 @@ app.post("/authenticate", (req, res) => {
           const newUser = new User({
             githubId,
             username: ghUsername,
+            fullname,
             avatarUrl,
           });
           const savedUser = await newUser.save();
