@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const FormData = require("form-data");
 const fetch = require("node-fetch");
 const path = require("path");
+const User = require("./models/User");
+const Post = require("./models/Post");
 const postRouter = require("./routes/posts.js");
 const userRouter = require("./routes/user.js");
 require("dotenv").config();
@@ -44,6 +46,23 @@ if (process.env.ENV === "PRODUCTION") {
   });
 }
 
+app.get("/authenticate/user-posts", (req, res) => {
+  const { ghUsername } = req.query;
+  const queries = [
+    User.find({ username: ghUsername }),
+    Post.find({ $or: [{ creator: ghUsername }, { isPublic: true }] }),
+  ];
+  Promise.all(queries)
+    .then(([dbUser, posts]) => {
+      const result = { dbUser, posts };
+      res.send(result);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.send("An error ocurred");
+    });
+});
+
 app.post("/authenticate", (req, res) => {
   const { client_id, redirect_uri, client_secret, code } = req.body;
   const data = new FormData();
@@ -69,8 +88,29 @@ app.post("/authenticate", (req, res) => {
       );
     })
     .then((response) => response.json())
-    .then((response) => {
-      return res.status(200).json(response);
+    .then(async (response) => {
+      try {
+        const {
+          avatar_url: avatarUrl,
+          login: ghUsername,
+          name: fullname,
+          id: githubId,
+        } = response;
+        const existingUser = await User.find({ username: ghUsername });
+        if (existingUser.length == 0) {
+          const newUser = new User({
+            githubId,
+            username: ghUsername,
+            fullname,
+            avatarUrl,
+          });
+          const savedUser = await newUser.save();
+        }
+        return res.status(200).json(response);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+      }
     })
     .catch((error) => {
       return res.status(400).json(error);

@@ -1,52 +1,70 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
-import { POSTS, USER } from '../FAKE_DATA';
-import Post from './Post';
-import SearchBar from './SearchBar';
-import Profile from './Profile';
-import '../styles/App.scss';
+import Post from "./Post";
+import SearchBar from "./SearchBar";
+import Profile from "./Profile";
+import "../styles/App.scss";
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
+import { getUserPosts } from "../store/reducer/index";
 
 export default function Home() {
-  const [ filter, setFilter ] = useState('');
+  const [filter, setFilter] = useState("");
   const { state, dispatch } = useContext(AuthContext);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { dbUser, posts } = await getUserPosts(state.user, state.proxy_url);
+      dispatch({
+        type: "POSTS",
+        payload: { posts, dbUser },
+      });
+    }
+    fetchData();
+  }, []);
 
   if (!state.isLoggedIn) {
     return <Redirect to="/login" />;
   }
 
-  const { avatar_url, name, public_repos, followers, following } = state.user;
-
+  const { posts, user } = state;
+  const {
+    login: username,
+    id: githubId,
+    avatar_url: avatarUrl,
+    name: fullname,
+  } = user;
   const handleLogout = () => {
     dispatch({
       type: "LOGOUT",
     });
   };
 
-  const allPosts = POSTS
-    .filter(post => {
-      if (filter.startsWith('#')) {
-        return post.tags.find((tag) =>('#' + tag).startsWith(filter));
+  const allPosts = posts
+    .filter((post) => {
+      if (filter.startsWith("#")) {
+        return post.tags.find((tag) => ("#" + tag).startsWith(filter));
       }
       return post.title.toLowerCase().includes(filter.toLowerCase());
     })
-    .map(post => <Post {...post}/>)
+    .map((post) => <Post {...post} />);
 
   return (
     <div className="home-container">
-      <button className='logout-btn' onClick={handleLogout}>Logout</button>
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
       <div className="header">
-        <Profile {...USER} />
-        <SearchBar setFilter={setFilter}/>
+        <Profile {...{ githubId, username, avatarUrl, fullname }} />
+        <SearchBar setFilter={setFilter} />
       </div>
       <Masonry
         className="my-masonry-grid posts"
         columnClassName="my-masonry-grid_column"
-          breakpointCols={masonryBreakpoints}
+        breakpointCols={masonryBreakpoints}
       >
-          {allPosts}
+        {allPosts}
       </Masonry>
     </div>
   );
