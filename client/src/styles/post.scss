@@ -41,9 +41,15 @@
                 color: $primary-caption-color;
             }
         }
+        &_content.contacts,
         &_content.youtube > a,
         &_content.text {
             padding: 0 1.5rem 2rem 1.5rem;
+        }
+        &_content.contacts {
+            display: flex;
+            flex-direction: column;
+            
         }
         &_content {
             
@@ -56,6 +62,12 @@
             }
             p {
                 margin-top: 0.5rem;
+            }
+
+            &-avatar {
+                width: 250px;
+                height: 250px;
+                border-radius: 100%;
             }
         }
         &_thumbnail {

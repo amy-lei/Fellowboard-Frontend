@@ -53,6 +53,23 @@ export const POSTS = [
         isPublic: true,
     },
     {
+        'creator': 'server',
+        'tags': ['contact'],
+        'title': "Amy Lei",
+        'type': 'contacts',
+        'isPublic': true,
+        'content': {
+            'username': "amy-lei",
+            'avatar': 'https://i.ytimg.com/vi/0bJUrCONVek/sddefault.jpg',
+            'email': 'amylei@mit.edu',
+            'github_url': "github.com/amy-lei",
+            'bio': "CS@MIT",
+            'location': "Brooklyn, NY",
+            'pod': "Dunder heads"
+
+        }
+    },
+    {
         creator: "amy-lei",
         type: "youtube",
         tags: ["sample", "hash", "tag"],

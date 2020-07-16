@@ -55,6 +55,22 @@ function Post(props) {
             </div>
             );
             break;
+        case "contacts":
+            content = (
+                <div className='post-body_content contacts'>
+                    <img
+                        className='post-body_content-avatar'
+                        src={props.content.avatar}
+                        alt='Avatar'
+                    />
+                    <ContactInfo icon={'user'} text={`${props.content.username} | ${props.content.pod}`}/>
+                    <ContactInfo icon={'mail'} text={props.content.mail}/>
+                    <ContactInfo icon={'location arrow'} text={props.content.location}/>
+                    <p>{props.content.bio}</p>
+                    <a href={props.content.github_url}>&#128279;</a>
+                </div>
+            );
+            break;
         default:
             break; // TODO: account for discord
     }
@@ -97,9 +113,12 @@ function Post(props) {
                     <h3 className='title'>
                         {props.title}
                     </h3>
-                    <label className='creator'>
-                        Shared by {props.creator}
-                    </label>
+                    {props.type !== 'contacts'
+                        &&
+                    (<label className='creator'>
+                        Shared by {props.creator === 'server' ? 'Team GARY': props.creator}
+                    </label>)
+                    }
                     <label className='time'>
                         Posted {timestamp}
                     </label>
@@ -116,3 +135,15 @@ function Post(props) {
 export default Post;
 
 
+function ContactInfo(props) {
+    const { icon, text } = props;
+    if (!text) {
+        return <></>;
+    }
+    
+    return (
+        <div className='contact-info'>
+            {text}
+        </div>
+    );
+}
