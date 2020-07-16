@@ -8,11 +8,8 @@ import Profile from './Profile';
 import '../styles/App.scss';
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
-<<<<<<< HEAD
 import "../styles/GitHubHome.css";
 import AddForm from "./AddForm";
-=======
->>>>>>> b8550c3b3afeab763916979ade3b1763de89c46c
 
 export default function Home() {
   const [ filter, setFilter ] = useState('');
