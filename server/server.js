@@ -6,6 +6,8 @@ const fetch = require("node-fetch");
 const path = require("path");
 const User = require("./models/User");
 const Post = require("./models/Post");
+const postRouter = require("./routes/posts.js");
+const userRouter = require("./routes/user.js");
 require("dotenv").config();
 
 // connect to database
@@ -17,6 +19,7 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true,
     dbName: "Dashboard",
+    useFindAndModify: false,
   })
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(`${err}: Failed to connect to MongoDB`));
@@ -24,12 +27,12 @@ mongoose
 // default all api endpoints to the defined routes in `api.js`
 const app = express();
 app.use(express.json());
-app.use("/api", require("./api.js"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: "text/*" }));
-app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/api/posts", postRouter);
+app.use("/api/users", userRouter);
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
