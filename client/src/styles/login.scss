@@ -19,9 +19,9 @@
         justify-content: flex-start;
         align-items: center;
         position: relative;
-
+        margin-top: 12vh;
+        
         &_name {
-            margin-top: 12vh;
             font-size: $xl-font-size;
             text-align: center;
             height: fit-content;
