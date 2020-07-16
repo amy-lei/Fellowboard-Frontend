@@ -12,6 +12,10 @@
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "npm": "6.4.1",
+    "node": "10.14.2"
+  },
   "dependencies": {
     "node-fetch": "^2.6.0",
     "discord.js": "^12.2.0",

@@ -1,0 +1,12 @@
+{   "name": "root",
+    "version": "0.1.0",
+    "engines": {
+      "npm": "6.4.1",
+      "node": "10.14.2"
+    },   
+    "scripts": {
+    "client": "cd client && npm start",
+    "server": "cd server && run server",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  }
+}
