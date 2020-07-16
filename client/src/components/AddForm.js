@@ -39,6 +39,8 @@ function AddForm() {
       case 'youtube':
       case 'github':
         setIsLoading(true);
+        // TODO: once the API gets merged, make a request
+        // and load a preivew, before reformatting the data to be sent
         break;
       default:
         break;
