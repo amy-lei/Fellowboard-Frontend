@@ -30,7 +30,6 @@ def push_to_heroku():
     os.system('git add .')
     os.system('git commit -m "Commit from heroku-deploy.py for deployment"')
     os.system('git push origin heroku-deploy')
-    # os.system('git push origin master')
     os.system('git subtree push --prefix web heroku master')
 
 
