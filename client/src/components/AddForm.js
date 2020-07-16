@@ -183,7 +183,7 @@ function TagForm(props) {
   // add tags split by commas
   const addTag = (e, {value}) => {
     if (value && value.charAt(value.length - 1) === ',') {
-      const tag = value.substring(0, value.length - 1);
+      const tag = value.substring(0, value.length - 1).trim();
       props.setTags(props.tags.concat(tag));
       setValue('');
     } else {
@@ -210,7 +210,7 @@ function TagForm(props) {
       </div>
       <Form.Input
         label='Tags'
-        placeholder='Add a comma to confirm each tag'
+        placeholder='Add a comma to confirm the tag'
         value={value}
         onChange={addTag}
       />

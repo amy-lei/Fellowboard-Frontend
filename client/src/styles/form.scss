@@ -25,6 +25,8 @@
         animation: fade-in 0.2s ease-in forwards;
     }
 
+    &.youtube,
+    &.github,
     &.text {
         width: 25rem;
     }
