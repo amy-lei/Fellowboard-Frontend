@@ -77,7 +77,13 @@ export default function Login() {
           </div>
         )}
       </div>
-      <h1 className='login-name'>fellow board</h1>
+      <div className='login-header'>
+        <h1 className='login-header_name'>garyboard</h1>
+        <p className='login-header_tagline'>
+          Navigate resources curated by fellows for fellows,
+          organized to fit YOUR needs.
+        </p>
+      </div>
     </div>
   );
 }

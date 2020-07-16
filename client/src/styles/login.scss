@@ -10,38 +10,34 @@
     background-image: url("../assets/illustration.svg");
     background-repeat: no-repeat;
     background-position: center bottom -125px;
-    // background-position: center bottom -200px;
-    background-size: contain;
+    background-size: 90vw 80vh;
     background-color: $login-background-color;
 
-    &-name {
-        margin-top: 10vh;
-        font-size: $xl-font-size;
-        text-align: center;
-        height: fit-content;
-        background-color: $primary-dark-color;
-        // color: $primary-dark-color;
-        color: white;
-        padding: 1.5rem 2.25rem;
-        border-radius: 100rem;
-    }
-    // &-name {
-    //     margin-top: 10vh;
-    //     font-size: $xl-font-size;
-    //     text-align: center;
-    //     height: fit-content;
-    //     background-color: transparentize($color: $primary-dark-color, $amount: 0.25);
-    //     color: white;
-    //     padding: 1.5rem 2.25rem;
-    //     border-radius: 100rem;
-    // }
+    &-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        position: relative;
 
-    // &-name {
-    //     margin-top: 10vh;
-    //     font-size: $xl-font-size;
-    //     text-align: center;
-    //     color: $primary-color;
-    // }
+        &_name {
+            margin-top: 10vh;
+            font-size: $xl-font-size;
+            text-align: center;
+            height: fit-content;
+            color: white;
+            border-radius: 100rem;
+        }
+    
+        &_tagline {
+            font-size: 18px;
+            width: 80%;
+            color: white;
+            text-align: center;
+            margin-top: 0.75rem;
+        }
+    }
+
 
     &-container {
         position: absolute;
@@ -56,18 +52,15 @@
     }
 
     &-btn {
-        // padding: 1rem 1.25rem;
-        padding-bottom: 1rem;
+        padding: 1rem 1.25rem;
         background-color: transparent;
         text-decoration: none;
         outline: none;
-        color: $primary-color;
-        // border: 1px solid $primary-color;
-        border-bottom: 1px solid $primary-color;
-        // border-radius: 50rem;
+        color: white;
+        border: 1px solid white;
+        border-radius: 50rem;
         cursor: pointer;
-        transition: 0.1s opacity ease-in;
-        transition: 0.1s color ease-in;
+        transition: 0.2s opacity ease-in;
 
         &:hover {
             opacity: 0.75;
@@ -99,8 +92,9 @@
     }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 700px) {
     .login {
+        background-size: 500px;
         background-position: center bottom 10vh;
     }
 }
