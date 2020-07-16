@@ -96,5 +96,9 @@
     .login {
         background-size: 500px;
         background-position: center bottom 10vh;
+        &-header_name {
+            font-size: 60px;
+            margin-top: 17vh;
+        }
     }
 }
