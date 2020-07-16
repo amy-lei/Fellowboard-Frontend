@@ -13,8 +13,32 @@ function AddForm() {
   const [ isPublic, setIsPublic ] = useState(true);
   const [ tags, setTags ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
+  const [ showConfirmation, setShowConfirmation ] = useState(false);
+
+  const reset = () => {
+    /**
+     * Reset all states
+     */
+    setOpen(false);
+    setType('');
+    setContent({});
+    setTags([]);
+    setIsPublic(false);
+    setIsLoading(false);
+    setShowConfirmation(false);
+  }
+
+  const confirmSubmit = () => {
+    // TODO: Make request, with body formatted based on type
+    reset();
+  }
 
   const submit = (e) => {
+    /**
+     * In the case of a text post, make a POST request to backend to add to DB.
+     * Otherwise, make a POST request to confirm the link.  `confirmPost` will
+     * submit be responsible for making the request for creating the post.
+     */
     e.preventDefault();
     switch(type) {
       case 'text':
@@ -30,17 +54,16 @@ function AddForm() {
           creator: 'server', // change this to the creator's gh username
         }
         console.log(body);
-        setOpen(false);
-        setType('');
-        setContent({});
-        setIsPublic(true);
-        setTags([]);
+        reset(); // reset all states
         break;
       case 'youtube':
       case 'github':
         setIsLoading(true);
         // TODO: once the API gets merged, make a request
-        // and load a preivew, before reformatting the data to be sent
+        // add the data to content
+        // set show confirmation to true to know to render the form
+        setIsLoading(false);
+        setShowConfirmation(true);
         break;
       default:
         break;
@@ -127,6 +150,31 @@ function AddForm() {
           </button>
         </Form>
       );
+    } else if (showConfirmation) {
+      let preview;
+      if (type === 'youtube') {
+        preview = "YOUTUBE";
+      } else if (type === 'github') {
+        preview = "GITHUB";
+      }
+      formContent = (
+        <div className='add-text'>
+          {preview}
+          <button 
+            className='add-form_submit'
+            onClick={reset}
+          >
+              Cancel
+          </button>
+          <button 
+            className='add-form_submit'
+            onClick={confirmSubmit}
+          >
+              Confirm
+          </button>
+        </div>
+        
+      )
     } else if (type === 'youtube' || type === 'github') {
       const title = type === 'youtube' ? 'Post a Youtube Video' : 'Post from Github';
       formContent = (
