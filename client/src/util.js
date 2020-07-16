@@ -15,8 +15,7 @@ export const getDateDifference = (date) => {
 }
 
 /**
- * Hashes strings to a hexcolor. Followed this guide:
- * https://www.designedbyaturtle.co.uk/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
+ * Hashes strings to a hexcolor. Chosen from a predetermined list of colors.
  *
  * @param {String} text: string to hash  
  */

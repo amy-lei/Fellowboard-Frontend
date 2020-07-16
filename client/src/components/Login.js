@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
-import "../styles/Login.css";
+import illustration from '../assets/illustration.svg';
+import "../styles/login.scss";
 
 export default function Login() {
   const { state, dispatch } = useContext(AuthContext);
@@ -55,36 +56,33 @@ export default function Login() {
   }
 
   return (
-    <main>
-      <section className="container">
-        <div>
-          <h1>Welcome</h1>
-          <span>Super amazing app</span>
-          <span>{data.errorMessage}</span>
-          <div className="login-container">
-            {data.isLoading ? (
-              <div className="loader-container">
-                <div className="loader"></div>
-              </div>
-            ) : (
-              <>
-                {
-                  // Link to request GitHub access
-                }
-                <a
-                  className="login-link"
-                  href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
-                  onClick={() => {
-                    setData({ ...data, errorMessage: "" });
-                  }}
-                >
-                  <span>Login with GitHub</span>
-                </a>
-              </>
-            )}
+    <div className='login'>
+      <div className="login-container">
+        {data.isLoading ? (
+          <div className="loader"></div>
+        ) : (
+          <div className='login-btn-container'>
+            <a
+              className="login-btn"
+              href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
+              onClick={() => {
+                setData({ ...data, errorMessage: "" });
+              }}
+            >
+              Login with Github
+            </a>
+            <span className='login-btn-error'>
+              {data.errorMessage}
+            </span>
           </div>
-        </div>
-      </section>
-    </main>
+        )}
+      </div>
+      <div className='login-header'>
+        <h1 className='login-header_name'>fellowboard</h1>
+        <p className='login-header_tagline'>
+          Navigate resources curated by fellows for fellows
+        </p>
+      </div>
+    </div>
   );
 }

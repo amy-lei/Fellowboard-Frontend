@@ -4,8 +4,8 @@
     padding: 1rem;
     
     &-avatar {
-        width: 5rem;
-        height: 5rem;
+        width: 7.5rem;
+        height: 7.5rem;
         background-color: grey;
         border-radius: 100%;
         margin-right: 1rem;
@@ -13,5 +13,38 @@
 
     &-name {
         font-size: $title-font-size;
+    }
+
+    &-discord {
+        width: 20rem;
+        display: flex;
+        align-items: center;
+        & > img {
+            width: 15px;
+            margin-left: 0.25rem;
+            opacity: .5;
+            cursor: pointer;
+            transition: 0.2s opacity ease-in;
+
+            &:hover {
+                opacity: 0.75;
+            }
+        }
+        
+        input {
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.5);
+            &:focus {
+                outline: none;
+            }
+        }
+        
+        &_input {
+            color: grey;
+            width: 10rem;
+            padding-bottom: 0.25rem;
+            transition: 0.1s border ease-in;
+            
+        }
     }
 }
