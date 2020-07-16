@@ -8,10 +8,21 @@ function Post(props) {
     const [ isHovered, setIsHovered ] = useState(isPinned);
 
     let content;
-    switch(props.type.toLowerCase()) {
+    const { type } = props;
+    switch(type.toLowerCase()) {
         case "discord":
         case "text":
+            let thumbnail;
+            if (type === 'discord') {
+                thumbnail = (
+                    <img
+                        src={props.content.thumbnail.url}
+                        className='post-body_thumbnail'
+                    />
+                );
+            }
             content = (
+            <>
                 <div className='post-body_content text'>
                     {"link" in props.content 
                         && (
@@ -26,6 +37,8 @@ function Post(props) {
                         {props.content.description}
                     </p>
                 </div>
+                {thumbnail}
+            </>
             )
             break;
         case "youtube":

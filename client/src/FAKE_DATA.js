@@ -13,12 +13,17 @@ export const POSTS = [
     },
     {
         creator: "amy-lei",
-        type: "text",
+        type: "discord",
         tags: ["tag1", "tag2", "tag4","kjfna-ukcnaca"],
         title: "How to MERN",
         content: {
             url: "https://github.com/amy-lei/dashboard/pull/7/files",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            thumbnail: {
+                url: 'https://i.ytimg.com/vi/0bJUrCONVek/sddefault.jpg',
+                width: 640,
+                height: 480
+              },
         },
         timestamp: new Date(),
         isPublic: true,
