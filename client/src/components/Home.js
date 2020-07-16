@@ -8,7 +8,6 @@ import Profile from './Profile';
 import '../styles/App.scss';
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
-import "../styles/GitHubHome.css";
 import AddForm from "./AddForm";
 
 export default function Home() {
