@@ -6,9 +6,10 @@
     "node": "10.14.2"
   },
   "scripts": {
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && npm install && npm start",
     "client": "cd client && npm i && npm start",
     "server": "cd server && npm i && npm run server",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "cd client && npm install && npm run build"
   }
 }
