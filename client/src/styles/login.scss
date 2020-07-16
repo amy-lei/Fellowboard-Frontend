@@ -1,0 +1,106 @@
+@import './base.scss';
+
+.login {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-image: url("../assets/illustration.svg");
+    background-repeat: no-repeat;
+    background-position: center bottom -125px;
+    // background-position: center bottom -200px;
+    background-size: contain;
+    background-color: $login-background-color;
+
+    &-name {
+        margin-top: 10vh;
+        font-size: $xl-font-size;
+        text-align: center;
+        height: fit-content;
+        background-color: $primary-dark-color;
+        // color: $primary-dark-color;
+        color: white;
+        padding: 1.5rem 2.25rem;
+        border-radius: 100rem;
+    }
+    // &-name {
+    //     margin-top: 10vh;
+    //     font-size: $xl-font-size;
+    //     text-align: center;
+    //     height: fit-content;
+    //     background-color: transparentize($color: $primary-dark-color, $amount: 0.25);
+    //     color: white;
+    //     padding: 1.5rem 2.25rem;
+    //     border-radius: 100rem;
+    // }
+
+    // &-name {
+    //     margin-top: 10vh;
+    //     font-size: $xl-font-size;
+    //     text-align: center;
+    //     color: $primary-color;
+    // }
+
+    &-container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 1.5rem;
+    }
+
+    &-btn-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-btn {
+        // padding: 1rem 1.25rem;
+        padding-bottom: 1rem;
+        background-color: transparent;
+        text-decoration: none;
+        outline: none;
+        color: $primary-color;
+        // border: 1px solid $primary-color;
+        border-bottom: 1px solid $primary-color;
+        // border-radius: 50rem;
+        cursor: pointer;
+        transition: 0.1s opacity ease-in;
+        transition: 0.1s color ease-in;
+
+        &:hover {
+            opacity: 0.75;
+        }
+
+        &:active {
+            opacity: 0.75;
+            background-color: rgba(255,255,255,0.25);
+        }
+    }
+
+}
+
+.loader {
+    border: 4px solid lightgray;
+    border-top: 4px solid $primary-color;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 750px) {
+    .login {
+        background-position: center bottom 10vh;
+    }
+}
