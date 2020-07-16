@@ -17,7 +17,7 @@ def copy_backend():
 
 
 def build_frontend():
-    os.system('cd client && npm i && npm run start')
+    os.system('cd client && npm i && npm run build')
 
 def copy_build_folder():
     shutil.copytree(
