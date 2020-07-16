@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
 import Post from "./Post";
@@ -7,10 +7,10 @@ import Profile from "./Profile";
 import "../styles/App.scss";
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
-import "../styles/GitHubHome.css";
 import { getUserPosts } from "../store/reducer/index";
 
 export default function Home() {
+  const [filter, setFilter] = useState("");
   const { state, dispatch } = useContext(AuthContext);
 
   useEffect(() => {
@@ -40,19 +40,31 @@ export default function Home() {
       type: "LOGOUT",
     });
   };
+
+  const allPosts = posts
+    .filter((post) => {
+      if (filter.startsWith("#")) {
+        return post.tags.find((tag) => ("#" + tag).startsWith(filter));
+      }
+      return post.title.toLowerCase().includes(filter.toLowerCase());
+    })
+    .map((post) => <Post {...post} />);
+
   return (
     <div className="home-container">
-      <button onClick={handleLogout}>Logout</button>
-      <Profile {...{ githubId, username, avatarUrl, fullname }} />
-      <SearchBar />
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
+      <div className="header">
+        <Profile {...{ githubId, username, avatarUrl, fullname }} />
+        <SearchBar setFilter={setFilter} />
+      </div>
       <Masonry
         className="my-masonry-grid posts"
         columnClassName="my-masonry-grid_column"
         breakpointCols={masonryBreakpoints}
       >
-        {posts.map((post) => (
-          <Post {...post} />
-        ))}
+        {allPosts}
       </Masonry>
     </div>
   );

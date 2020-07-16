@@ -41,11 +41,15 @@ export default function Login() {
             type: "LOGIN",
             payload: { user: data, isLoggedIn: true },
           });
-          const { dbUser, posts } = await getUserPosts(data, proxy_url);
-          dispatch({
-            type: "POSTS",
-            payload: { posts, dbUser },
-          });
+          try {
+            const { dbUser, posts } = await getUserPosts(data, proxy_url);
+            dispatch({
+              type: "POSTS",
+              payload: { posts, dbUser },
+            });
+          } catch (error) {
+            console.error(error);
+          }
         })
         .catch((error) => {
           setData({

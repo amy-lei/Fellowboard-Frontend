@@ -1,12 +1,17 @@
 export const getUserPosts = async (user, proxyUrl) => {
-  if (user) {
-    const { avatar_url, login, id } = user;
-    const params = `?ghUsername=${login}&githubId=${id}&avatarUrl=${avatar_url}`;
-    const response = await fetch(`${proxyUrl}/user-posts${params}`);
-    const posts = await response.json();
-    return posts;
+  try {
+    if (user) {
+      const { avatar_url, login, id } = user;
+      const params = `?ghUsername=${login}&githubId=${id}&avatarUrl=${avatar_url}`;
+      const response = await fetch(`${proxyUrl}/user-posts${params}`);
+      const posts = await response.json();
+      return posts;
+    }
+    return [];
+  } catch (error) {
+    console.error(error);
+    return [];
   }
-  return [];
 };
 export const initialState = {
   isLoggedIn: JSON.parse(localStorage.getItem("isLoggedIn")) || false,
