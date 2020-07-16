@@ -81,7 +81,7 @@ export default function Login() {
         <h1 className='login-header_name'>garyboard</h1>
         <p className='login-header_tagline'>
           Navigate resources curated by fellows for fellows,
-          organized to fit YOUR needs.
+          and organized them to fit YOUR needs.
         </p>
       </div>
     </div>
