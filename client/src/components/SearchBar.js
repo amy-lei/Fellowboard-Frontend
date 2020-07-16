@@ -31,8 +31,13 @@ function SearchBar(props) {
                 value={inputValue}
                 placeholder="Search by title or by tags by prepending #..."
                 onChange={handleOnChange}
+                onKeyUp={() => props.setFilter(inputValue)}
             />
-            <img src={search}/>
+            <img 
+                src={search}
+                className='search-btn'
+                onClick={() => props.setFilter(inputValue)}
+            />
         </div>
     )
 }
