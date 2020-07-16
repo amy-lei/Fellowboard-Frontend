@@ -85,14 +85,15 @@ app.post("/authenticate", (req, res) => {
       );
     })
     .then((response) => response.json())
-    .then((response) => {
-      const {
-        avatar_url: avatarUrl,
-        login: ghUsername,
-        id: githubId,
-      } = response;
-      User.find({ username: ghUsername }).then(async (result) => {
-        if (result.length == 0) {
+    .then(async (response) => {
+      try {
+        const {
+          avatar_url: avatarUrl,
+          login: ghUsername,
+          id: githubId,
+        } = response;
+        const existingUser = await User.find({ username: ghUsername });
+        if (existingUser.length == 0) {
           const newUser = new User({
             githubId,
             username: ghUsername,
@@ -101,7 +102,10 @@ app.post("/authenticate", (req, res) => {
           const savedUser = await newUser.save();
         }
         return res.status(200).json(response);
-      });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+      }
     })
     .catch((error) => {
       return res.status(400).json(error);
