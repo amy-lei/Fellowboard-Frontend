@@ -9,6 +9,7 @@ import '../styles/App.scss';
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
 import "../styles/GitHubHome.css";
+import AddForm from "./AddForm";
 
 export default function Home() {
   const { state, dispatch } = useContext(AuthContext);
@@ -37,6 +38,7 @@ export default function Home() {
           >
               {POSTS.map(post => <Post {...post} />)}
           </Masonry>
+        <AddForm/>
     </div>
   );
 }
