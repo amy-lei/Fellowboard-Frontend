@@ -33,7 +33,7 @@ function AddForm() {
     reset();
   }
 
-  const submit = (e) => {
+  const submit = async (e) => {
     /**
      * In the case of a text post, make a POST request to backend to add to DB.
      * Otherwise, make a POST request to confirm the link.  `confirmPost` will
@@ -53,7 +53,14 @@ function AddForm() {
           },
           creator: 'server', // change this to the creator's gh username
         }
-        console.log(body);
+        const post = await fetch('/api/posts', {
+          method: 'POST',
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        // TODO: update state with new post
+        console.log(post);
         reset(); // reset all states
         break;
       case 'youtube':
