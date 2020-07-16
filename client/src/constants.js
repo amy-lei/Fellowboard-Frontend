@@ -1,14 +1,12 @@
 export const TAG_COLORS = [
-    'DC8665',
-    '138085',
-    '544667',
-    'CE7672',
-    'EEB462',
-    '648ECD',
-    '6757C7',
-    '545454',
-    '4A6163',
-    '5BAEA3',
+    '0F2E4C',
+    '39B995',
+    'F7B929',
+    '1C529E',
+    '263546',
+    'FED330',
+    'DB3A34',
+    '14B5B0',
 ];
 
 export const masonryBreakpoints = {
