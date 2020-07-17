@@ -78,7 +78,7 @@ function Profile(props) {
     return (
         <div className='profile'>
             <div className='profile-avatar'>
-                <img className='profile-avatar-img' src={props.avatarUrl}/>
+                <img className='profile-avatar-img' src={props.avatarUrl} alt=''/>
             </div>
             <section>
                 <h2 className='profile-name'>

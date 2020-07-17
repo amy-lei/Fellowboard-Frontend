@@ -78,7 +78,6 @@ export default function Home() {
         </Masonry>
       </div>
       <TopButton/>
-
       <AddForm/>
     </div>
   );
