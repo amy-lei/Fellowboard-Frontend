@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
 import { getUserPosts } from "../store/reducer/index";
-import illustration from "../assets/illustration.svg";
 import "../styles/login.scss";
 
 export default function Login() {

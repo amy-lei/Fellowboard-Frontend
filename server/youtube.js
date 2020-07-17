@@ -87,7 +87,7 @@ const getVideoData = async (videoId) => {
   
     const video = await req.data.items[0];
     const post = {
-        tags: video.snippet.tags,
+        tags: video.snippet.tags || [],
         creator: "",
         type: "youtube",
         title: video.snippet.title,

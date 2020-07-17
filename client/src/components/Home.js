@@ -7,6 +7,7 @@ import Profile from "./Profile";
 import "../styles/App.scss";
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
+import AddForm from "./AddForm";
 import { getUserPosts } from "../store/reducer/index";
 
 export default function Home() {
@@ -28,13 +29,13 @@ export default function Home() {
     return <Redirect to="/login" />;
   }
 
-  const { posts, user } = state;
+  const { posts, dbUser } = state;
   const {
-    login: username,
-    id: githubId,
-    avatar_url: avatarUrl,
-    name: fullname,
-  } = user;
+    githubId,
+    username,
+    avatarUrl,
+    fullname,
+  } = dbUser;
   const handleLogout = () => {
     dispatch({
       type: "LOGOUT",
@@ -66,6 +67,7 @@ export default function Home() {
       >
         {allPosts}
       </Masonry>
+      <AddForm/>
     </div>
   );
 }
