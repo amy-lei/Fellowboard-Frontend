@@ -9,6 +9,7 @@ const Post = require("./models/Post");
 const postRouter = require("./routes/posts.js");
 const userRouter = require("./routes/user.js");
 require("dotenv").config();
+const cors  = require('cors');
 
 // connect to database
 const mongoConnectionURL = process.env.MONGODB_SRV;
@@ -26,6 +27,7 @@ mongoose
 
 // default all api endpoints to the defined routes in `api.js`
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use(bodyParser.json());
