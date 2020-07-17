@@ -7,7 +7,7 @@ import { AuthContext } from "../App";
 function Post(props) {
     const { state, dispatch } = useContext(AuthContext);
     const [ isHovered, setIsHovered ] = useState(false);
-    const isPinned = state.dbUser.pinnedPosts.includes(props._id);
+    const isPinned = props.pinnedPosts.has(props._id);
     
     const pinPost = async () => {
         /**
