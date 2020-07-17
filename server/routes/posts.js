@@ -113,4 +113,19 @@ router.post('/:id/', async (req, res) => {
     }
 });
 
+//delete post based on id, return 200 ok
+
+router.delete('/:id/', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const deleted = await Post.findByIdAndDelete(id).exec();
+        if(deleted) {
+            res.sendStatus(200);
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+})
+
 module.exports = router;
