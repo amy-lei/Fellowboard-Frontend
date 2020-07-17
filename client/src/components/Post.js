@@ -2,8 +2,9 @@ import React, { useState, useContext } from 'react';
 import { getDateDifference, toHexColor } from '../util';
 import pin_outline from '../assets/pin-outline.svg'; 
 import pin_filled from '../assets/pin-filled.svg'; 
-import { Icon } from "semantic-ui-react";
+import { Icon, List } from "semantic-ui-react";
 import { AuthContext } from "../App";
+import { BaseStyles, AvatarStack } from "@primer/components";
 
 function Post(props) {
     const { state, dispatch } = useContext(AuthContext);
@@ -118,6 +119,42 @@ function Post(props) {
                         <span>{props.content.bio}</span>
                         <a href={props.content.github_url}>&#128279; Github Profile</a>
                     </div>
+                </div>
+            );
+            break;
+        case "github":
+            const bullets = props.content.body
+                .split('-')
+                .filter(text => text.trim() !== '');
+            
+            content = (
+                <div className='post-body_content github'>
+                    <ContactInfo icon='user circle' text={props.content.creator}/>
+                    <ContactInfo icon='warning circle' text={props.content.state}/>
+                    <a href={props.content.url} target="_blank">
+                        &#128279;  
+                        Link to {props.content.url.includes('issues') ? 'issue' : 'PR'}
+                    </a>
+                    {
+                        bullets.length === 1
+                        ? <p>{props.content.body}</p>
+                        : <List>
+                            {
+                            bullets.map((datum, i) => (
+                                <List.Item key={i}>
+                                {datum}
+                                </List.Item>
+                            ))
+                            }
+                        </List>
+                    }
+                    <BaseStyles>
+                        <AvatarStack>
+                            {props.content.allAssignees.map((assignee, i) => (
+                                <img src={assignee.avatar_url} alt='Avatar'/>
+                            ))}
+                        </AvatarStack>
+                    </BaseStyles>
                 </div>
             );
             break;

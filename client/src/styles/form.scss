@@ -20,6 +20,7 @@
     background-color: white;
     border-radius: $radius;
     width: fit-content;
+    box-shadow: $smooth-shadow;
     transition: width, height 0.1s ease-in;
     &.opened {
         animation: fade-in 0.2s ease-in forwards;
@@ -30,9 +31,30 @@
     &.text {
         width: 25rem;
     }
+
+    &.youtube {
+        .add-text > img {
+            width: 100%;
+        }
+    }
+
+    &.github {
+        .add-text > p,
+        .add-text > label {
+            display: block;
+        }
+        .add-text > p {
+            margin-top: 1rem;
+        }
+    }
+    
+    &-submit {
+        width: 100%;
+    }
 }
 
 .add-text {
+    position: relative;
     padding: 2rem 1.5rem;
     &_field {
         margin: 0.25rem;
@@ -44,9 +66,12 @@
     & > h3 {
         text-align: center;
     }
+
+    & > .fields {
+        padding: 1rem 0;
+    }
         
 }
-
 
 .add-options {
     display: flex;
@@ -79,6 +104,23 @@
     }
 }
 
+.loader.form {
+    margin: auto;
+}
+
+.warning.icon.open {
+    color: $green !important;
+}
+.warning.icon.closed {
+    color: $red !important;
+}
+
+
+.submit-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
 
 @keyframes open {
     0% {

@@ -79,7 +79,7 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <button className="logout-btn" onClick={handleLogout}>
+      <button className="logout-btn btn-outline" onClick={handleLogout}>
         Logout
       </button>
       <div className="header">
