@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://arcane-ravine-66915.herokuapp.com",
+  "proxy": "https://fellowboard.herokuapp.com",
   "engines": {
     "npm": "6.4.1",
     "node": "10.14.2"
