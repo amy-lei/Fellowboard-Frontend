@@ -44,16 +44,6 @@
 .logout-btn {
   position: absolute;
   right: 7.5vw;
-  color: $primary-color;
-  border: 1px solid $primary-color;
-  border-radius: 50rem;
-  background-color: transparent;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: 0.1s opacity ease-in;
-  &:hover {
-    opacity: 0.75;
-  }
 }
 
 .scroll-button {
