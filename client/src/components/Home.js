@@ -58,15 +58,12 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <div className="header-container">
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-        <div className="header">
-          
-          <Profile {...{ githubId, username, avatarUrl, fullname, discord}} />
-          <SearchBar setFilter={setFilter} />
-        </div>
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
+      <div className="header">
+        <Profile {...{ githubId, username, avatarUrl, fullname, discord}} />
+        <SearchBar setFilter={setFilter} />
       </div>
       <div className="masonry-container">
         <Masonry
