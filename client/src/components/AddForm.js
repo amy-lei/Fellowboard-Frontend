@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { toHexColor } from '../util';
 import { 
   Button, 
@@ -9,8 +9,10 @@ import {
 } from "semantic-ui-react";
 import { AuthContext } from "../App";
 import { BaseStyles, AvatarStack } from "@primer/components";
+import { CSSTransition } from "react-transition-group";
 
 function AddForm() {
+  const btnRef = useRef(null);
   const { state, dispatch } = useContext(AuthContext);
 
   const [ error, setError ] = useState('');
@@ -120,6 +122,11 @@ function AddForm() {
       default:
         break;
     }
+  }
+
+  const onButtonClick = () => {
+    btnRef.current.className = 'add-btn ' + open ? 'closed' : 'opened';
+    reset();
   }
 
   let formContent;
@@ -353,16 +360,22 @@ function AddForm() {
         circular
         icon='plus'
         size='big'
+        ref={btnRef}
         className={`add-btn ${open ? 'opened' : 'closed'}`}
         onClick={() => { setOpen(!open); setType(''); }}
       />
-      { open && (
+      <CSSTransition
+        in={open}
+        unmountOnExit
+        classNames="form"
+        timeout={200}
+      >
         <div 
           className={`add-form ${open ? 'opened' : 'closed'} ${type}`}
         >
           {formContent}
         </div>
-      )}
+      </CSSTransition>
     </div>
   );
 }
