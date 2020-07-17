@@ -75,6 +75,7 @@ export default function Home() {
           {allPosts}
         </Masonry>
       </div>
+      <AddForm/>
     </div>
   );
 }
