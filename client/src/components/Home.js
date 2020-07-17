@@ -9,6 +9,7 @@ import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
 import AddForm from "./AddForm";
 import { getUserPosts } from "../store/reducer/index";
+import TopButton from "./TopButton";
 
 export default function Home() {
   const [filter, setFilter] = useState("");
@@ -76,6 +77,7 @@ export default function Home() {
           {allPosts}
         </Masonry>
       </div>
+      <TopButton/>
       <AddForm/>
     </div>
   );
