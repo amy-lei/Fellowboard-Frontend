@@ -16,7 +16,11 @@ router.get('/:username', async (req, res, next) => {
 //update pinned posts with new pinned posts array
 router.post('/:username/pins', async (req, res, next) => {
     const username = req.params.username;
+<<<<<<< HEAD
     const newPins = req.body.pinnedPosts;
+=======
+    const newPins = req.body;
+>>>>>>> 36bd30c918062fe3580fb97a329ca74405eb86a3
 
     try {
         const user = await User.findOneAndUpdate({username: username}, {"pinnedPosts": newPins}).exec();

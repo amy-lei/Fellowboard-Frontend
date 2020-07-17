@@ -98,7 +98,7 @@ async function getPostsFromChannelMessages(channel) {
     try {
         //default fetch is 50 messages
         const channelMessages = await channel.messages.fetch();
-        const channelName = channel.name;
+        const channelName = `#${channel.name}`;
         // console.log(channelName);
         const posts = [];
 
