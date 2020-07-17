@@ -51,9 +51,11 @@ export const reducer = (state, action) => {
       };
     }
     case "ADD_POST": {
+      const posts = [...state.posts];
+      posts.unshift(action.payload.post);
       return {
         ...state,
-        posts: state.posts.concat(action.payload.post),
+        posts,
       };
     }
     default:
