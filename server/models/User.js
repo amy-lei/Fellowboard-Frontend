@@ -15,8 +15,8 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  fullname: { type: String, default: '' },
-  discord: { type: String, default: '' },
+  fullname: { type: String, default: "" },
+  discord: { type: String, default: "" },
   pinnedPosts: { type: Array, default: [] },
 });
 

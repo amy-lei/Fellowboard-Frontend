@@ -22,6 +22,7 @@ export const initialState = {
   proxy_url: process.env.REACT_APP_PROXY_URL,
   dbUser: {},
   posts: [],
+  selectedFilter: "explore",
 };
 
 export const reducer = (state, action) => {
@@ -59,13 +60,19 @@ export const reducer = (state, action) => {
       };
     }
     case "UPDATE_PINS": {
-     return {
-       ...state,
-       dbUser: {
-         ...state.dbUser,
-         pinnedPosts: action.payload,
-       }
-     } 
+      return {
+        ...state,
+        dbUser: {
+          ...state.dbUser,
+          pinnedPosts: action.payload,
+        },
+      };
+    }
+    case "FILTER": {
+      return {
+        ...state,
+        selectedFilter: action.payload.selectedFilter,
+      };
     }
     case "UPDATE_DISCORD": {
       const dbUser = state.dbUser;
@@ -78,5 +85,4 @@ export const reducer = (state, action) => {
     default:
       return state;
   }
-
 };

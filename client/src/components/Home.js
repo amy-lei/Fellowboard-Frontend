@@ -15,8 +15,19 @@ export default function Home() {
   const [filter, setFilter] = useState("");
   const { state, dispatch } = useContext(AuthContext);
   const pinnedPosts = useMemo(() => {
-    return new Set(state.dbUser.pinnedPosts)
+    return new Set(state.dbUser.pinnedPosts);
   }, [state.dbUser.pinnedPosts]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { dbUser, posts } = await getUserPosts(state.user, state.proxy_url);
+      dispatch({
+        type: "POSTS",
+        payload: { posts, dbUser },
+      });
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -33,14 +44,9 @@ export default function Home() {
     return <Redirect to="/login" />;
   }
 
-  const { posts, dbUser } = state;
-  const {
-    githubId,
-    username,
-    avatarUrl,
-    fullname,
-    discord
-  } = dbUser;
+  const { posts, selectedFilter, dbUser } = state;
+  const { githubId, username, avatarUrl, fullname, discord } = dbUser;
+
   const handleLogout = () => {
     dispatch({
       type: "LOGOUT",
@@ -54,7 +60,22 @@ export default function Home() {
       }
       return post.title.toLowerCase().includes(filter.toLowerCase());
     })
-    .map((post, i) => <Post key={i} {...post} pinnedPosts={pinnedPosts} user={dbUser}/>);
+    .filter((post) => {
+      switch (selectedFilter) {
+        case "dashboard": {
+          return dbUser.pinnedPosts.includes(post._id);
+        }
+        case "contacts": {
+          return post.type === "contacts";
+        }
+        default: {
+          return true;
+        }
+      }
+    })
+    .map((post, i) => (
+      <Post key={i} {...post} pinnedPosts={pinnedPosts} user={dbUser} />
+    ));
 
   return (
     <div className="home-container">
@@ -62,7 +83,7 @@ export default function Home() {
         Logout
       </button>
       <div className="header">
-        <Profile {...{ githubId, username, avatarUrl, fullname, discord}} />
+        <Profile {...{ githubId, username, avatarUrl, fullname, discord }} />
         <SearchBar setFilter={setFilter} />
       </div>
       <div className="masonry-container">
@@ -74,8 +95,8 @@ export default function Home() {
           {allPosts}
         </Masonry>
       </div>
-      <TopButton/>
-      <AddForm/>
+      <TopButton />
+      <AddForm />
     </div>
   );
 }
