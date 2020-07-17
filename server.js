@@ -37,7 +37,7 @@ if (process.env.ENV === "PRODUCTION") {
   const reactPath = path.resolve(__dirname, "..", "client", "build");
   app.use(express.static(reactPath));
   app.get("*", (req, res) => {
-    res.sendFile(path.join(reactPath, "index.html"));
+    res.sendFile(path.join(reactPath, "dashboard/index.html"));
   });
 }
 
