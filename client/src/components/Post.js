@@ -4,8 +4,28 @@ import pin_outline from '../assets/pin-outline.svg';
 import pin_filled from '../assets/pin-filled.svg'; 
 
 function Post(props) {
-    const [ isPinned, setIsPinned ] = useState(false); // MADE INTO A STATE FOR TESTING
-    const [ isHovered, setIsHovered ] = useState(isPinned);
+    const [ isHovered, setIsHovered ] = useState(false);
+    const isPinned = props.id in props.pinnedPosts;
+
+    const pinPost = async () => {
+        /**
+         * Update passed pin to be opposite of its current pin state
+         */
+        const body = {
+            pinnedPosts: isPinned 
+                ? props.user.pinnedPosts.filter(_id => _id === props._id)
+                : props.user.pinnedPosts.concat(props._id)
+        }
+
+        console.log(body);
+        const res = await fetch(`/api/users/${props.user.username}/pins`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json'},
+            body: JSON.stringify(body),
+        });
+        const updatedUser = await res.json();
+        console.log(updatedUser);
+    }
 
     let content;
     switch(props.type.toLowerCase()) {
@@ -74,7 +94,7 @@ function Post(props) {
         >
             {(isHovered || isPinned) && (
                 <img 
-                    onClick={() => setIsPinned(!isPinned)}
+                    onClick={pinPost}
                     className='post-pin' 
                     src={isPinned ? pin_filled : pin_outline}
                 />
