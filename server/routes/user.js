@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const User = require("../models/User.js");
-const mongoose = require("mongoose");
 
 router.get('/:username', async (req, res, next) => {
     const username = req.params.username;
