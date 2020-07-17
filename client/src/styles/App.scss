@@ -37,6 +37,7 @@ h6 {
 a { 
     color: $primary-font-color;
 }
+
 .btn-outline {
     color: $primary-color;
     border: 1px solid $primary-color;
@@ -48,4 +49,17 @@ a {
     &:hover {
         opacity: 0.75;
     }
+}
+
+.ui.input > input {
+    border-top: none !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-radius: 0 !important;
+}
+
+
+button:focus,
+button:active {
+    outline: none;
 }
