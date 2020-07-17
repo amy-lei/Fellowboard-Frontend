@@ -3,6 +3,7 @@
 @import './post.scss';
 @import './search.scss';
 @import './profile.scss';
+@import './form.scss';
 @import './home.scss';
 
 * {
@@ -13,6 +14,7 @@
     font-weight: 400;
     font-size: $body-font-size;
     color: $primary-font-color;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -31,4 +33,8 @@ h6 {
 .home-container {
     width: 85vw;
     margin: auto;
+}
+
+a { 
+    color: $primary-font-color;
 }

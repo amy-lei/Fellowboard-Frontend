@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
 import Post from "./Post";
@@ -7,11 +7,27 @@ import Profile from "./Profile";
 import "../styles/App.scss";
 import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
+import AddForm from "./AddForm";
 import { getUserPosts } from "../store/reducer/index";
+import TopButton from "./TopButton";
 
 export default function Home() {
   const [filter, setFilter] = useState("");
   const { state, dispatch } = useContext(AuthContext);
+  const pinnedPosts = useMemo(() => {
+    return new Set(state.dbUser.pinnedPosts);
+  }, [state.dbUser.pinnedPosts]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { dbUser, posts } = await getUserPosts(state.user, state.proxy_url);
+      dispatch({
+        type: "POSTS",
+        payload: { posts, dbUser },
+      });
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -28,13 +44,9 @@ export default function Home() {
     return <Redirect to="/login" />;
   }
 
-  const { posts, user, selectedFilter, dbUser } = state;
-  const {
-    login: username,
-    id: githubId,
-    avatar_url: avatarUrl,
-    name: fullname,
-  } = user;
+  const { posts, selectedFilter, dbUser } = state;
+  const { githubId, username, avatarUrl, fullname, discord } = dbUser;
+
   const handleLogout = () => {
     dispatch({
       type: "LOGOUT",
@@ -61,7 +73,9 @@ export default function Home() {
         }
       }
     })
-    .map((post) => <Post {...post} />);
+    .map((post, i) => (
+      <Post key={i} {...post} pinnedPosts={pinnedPosts} user={dbUser} />
+    ));
 
   return (
     <div className="home-container">
@@ -69,16 +83,20 @@ export default function Home() {
         Logout
       </button>
       <div className="header">
-        <Profile {...{ githubId, username, avatarUrl, fullname }} />
+        <Profile {...{ githubId, username, avatarUrl, fullname, discord }} />
         <SearchBar setFilter={setFilter} />
       </div>
-      <Masonry
-        className="my-masonry-grid posts"
-        columnClassName="my-masonry-grid_column"
-        breakpointCols={masonryBreakpoints}
-      >
-        {allPosts}
-      </Masonry>
+      <div className="masonry-container">
+        <Masonry
+          className="my-masonry-grid posts"
+          columnClassName="my-masonry-grid_column"
+          breakpointCols={masonryBreakpoints}
+        >
+          {allPosts}
+        </Masonry>
+      </div>
+      <TopButton />
+      <AddForm />
     </div>
   );
 }

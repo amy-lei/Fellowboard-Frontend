@@ -90,7 +90,7 @@ router.post('/', async (req, res, next) => {
             }
             else {
                 const saved = await post.save();
-                res.status(200).send(saved._id);
+                res.status(200).send(saved);
             }
         }
         

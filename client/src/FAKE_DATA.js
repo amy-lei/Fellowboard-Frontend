@@ -13,12 +13,17 @@ export const POSTS = [
     },
     {
         creator: "amy-lei",
-        type: "text",
+        type: "discord",
         tags: ["tag1", "tag2", "tag4","kjfna-ukcnaca"],
         title: "How to MERN",
         content: {
             url: "https://github.com/amy-lei/dashboard/pull/7/files",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            thumbnail: {
+                url: 'https://i.ytimg.com/vi/0bJUrCONVek/sddefault.jpg',
+                width: 640,
+                height: 480
+              },
         },
         timestamp: new Date(),
         isPublic: true,
@@ -46,6 +51,23 @@ export const POSTS = [
         },
         timestamp: new Date(),
         isPublic: true,
+    },
+    {
+        'creator': 'server',
+        'tags': ['contact'],
+        'title': "Amy Lei",
+        'type': 'contacts',
+        'isPublic': true,
+        'content': {
+            'username': "amy-lei",
+            'avatar': 'https://i.ytimg.com/vi/0bJUrCONVek/sddefault.jpg',
+            'email': 'amylei@mit.edu',
+            'github_url': "github.com/amy-lei",
+            'bio': "CS@MIT",
+            'location': "Brooklyn, NY",
+            'pod': "Dunder heads"
+
+        }
     },
     {
         creator: "amy-lei",

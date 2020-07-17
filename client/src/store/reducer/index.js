@@ -44,16 +44,42 @@ export const reducer = (state, action) => {
       return { ...state, isLoggedIn: false, user: null };
     }
     case "POSTS": {
+      const { posts, dbUser } = action.payload;
       return {
         ...state,
-        posts: action.payload.posts,
-        dbUser: action.payload.dbUser,
+        posts,
+        dbUser: dbUser instanceof Array ? dbUser[0] : dbUser,
+      };
+    }
+    case "ADD_POST": {
+      const posts = [...state.posts];
+      posts.unshift(action.payload.post);
+      return {
+        ...state,
+        posts,
+      };
+    }
+    case "UPDATE_PINS": {
+      return {
+        ...state,
+        dbUser: {
+          ...state.dbUser,
+          pinnedPosts: action.payload,
+        },
       };
     }
     case "FILTER": {
       return {
         ...state,
         selectedFilter: action.payload.selectedFilter,
+      };
+    }
+    case "UPDATE_DISCORD": {
+      const dbUser = state.dbUser;
+      dbUser.discord = action.payload.discord;
+      return {
+        ...state,
+        dbUser,
       };
     }
     default:

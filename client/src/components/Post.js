@@ -1,19 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { getDateDifference, toHexColor } from '../util';
 import pin_outline from '../assets/pin-outline.svg'; 
 import pin_filled from '../assets/pin-filled.svg'; 
+import { Icon } from "semantic-ui-react";
+import { AuthContext } from "../App";
 
 function Post(props) {
-    const [ isPinned, setIsPinned ] = useState(false); // MADE INTO A STATE FOR TESTING
-    const [ isHovered, setIsHovered ] = useState(isPinned);
+    const { state, dispatch } = useContext(AuthContext);
+    const [ isHovered, setIsHovered ] = useState(false);
+    const isPinned = props.pinnedPosts.has(props._id);
+    
+    const pinPost = async () => {
+        /**
+         * Update passed pin to be opposite of its current pin state
+         */
+        const updatedPins = isPinned 
+            ? state.dbUser.pinnedPosts.filter(_id =>  _id !== props._id)
+            : state.dbUser.pinnedPosts.concat(props._id)
+        const body = {
+            pinnedPosts: updatedPins,
+        }
+        const res = await fetch(`/api/users/${state.dbUser.username}/pins`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json'},
+            body: JSON.stringify(body),
+        });
+        const updatedUser = await res.json();
+        dispatch({
+            type: 'UPDATE_PINS',
+            payload: updatedPins,
+        });
+    }
 
     let content;
-    switch(props.type.toLowerCase()) {
+    const { type } = props;
+    switch(type.toLowerCase()) {
         case "discord":
         case "text":
+            let thumbnail;
+            if (type === 'discord') {
+                thumbnail = (
+                    <img
+                        src={props.content.thumbnail.url}
+                        className='post-body_thumbnail'
+                    />
+                );
+            }
             content = (
+            <>
                 <div className='post-body_content text'>
-                    {"link" in props.content 
+                    {"url" in props.content 
                         && (
                         <>
                             &#128279;  
@@ -26,6 +62,8 @@ function Post(props) {
                         {props.content.description}
                     </p>
                 </div>
+                {thumbnail}
+            </>
             )
             break;
         case "youtube":
@@ -40,6 +78,30 @@ function Post(props) {
                     src={props.content.thumbnails.url}
                 /> 
             </div>
+            );
+            break;
+        case "contacts":
+            content = (
+                <div className='post-body_content contacts'>
+                    <img
+                        className='post-body_content-avatar'
+                        src={props.content.avatar}
+                        alt='Avatar'
+                    />
+                    <div className='post-body_content-bio'>
+                        <ContactInfo 
+                            icon={'user'} 
+                            text={`${props.content.username} | ${props.content.pod}`}
+                        />
+                        <ContactInfo 
+                            icon={'mail'} 
+                            text={props.content.mail}
+                        />
+                        <ContactInfo icon={'location arrow'} text={props.content.location}/>
+                        <span>{props.content.bio}</span>
+                        <a href={props.content.github_url}>&#128279; Github Profile</a>
+                    </div>
+                </div>
             );
             break;
         default:
@@ -74,7 +136,7 @@ function Post(props) {
         >
             {(isHovered || isPinned) && (
                 <img 
-                    onClick={() => setIsPinned(!isPinned)}
+                    onClick={pinPost}
                     className='post-pin' 
                     src={isPinned ? pin_filled : pin_outline}
                 />
@@ -84,9 +146,12 @@ function Post(props) {
                     <h3 className='title'>
                         {props.title}
                     </h3>
-                    <label className='creator'>
-                        Shared by {props.creator}
-                    </label>
+                    {props.type !== 'contacts'
+                        &&
+                        (<label className='creator'>
+                            Shared by {props.creator === 'server' ? 'Team GARY': props.creator}
+                        </label>)
+                    }
                     <label className='time'>
                         Posted {timestamp}
                     </label>
@@ -103,3 +168,16 @@ function Post(props) {
 export default Post;
 
 
+function ContactInfo(props) {
+    const { icon, text } = props;
+    if (!text) {
+        return <></>;
+    }
+    
+    return (
+        <div className={`contact-info ${icon === 'user' ? 'name' : ''}`}>
+            <Icon name={icon}/>
+            {text}
+        </div>
+    );
+}

@@ -1,10 +1,26 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import search from "../assets/search.svg";
-import { toHexColor } from "../util";
 import { AuthContext } from "../App";
 function SearchBar(props) {
+  const scrollRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
-  const [query, setQuery] = useState([]);
+
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    if (position < 300) {
+      scrollRef.current.className = "search";
+    } else if (position >= 100) {
+      scrollRef.current.className = "search fixed";
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const { state, dispatch } = useContext(AuthContext);
   const handleOnChange = (e) => {
@@ -20,23 +36,9 @@ function SearchBar(props) {
     });
   };
 
-  const tags = query.map((tag, i) => {
-    const text = tag.substring(1);
-    return (
-      <span
-        key={i}
-        className="tag"
-        style={{ backgroundColor: toHexColor(text) }}
-      >
-        {tag}
-      </span>
-    );
-  });
-
   return (
     <section>
-      <div className="search">
-        {tags}
+      <div ref={scrollRef} className="search">
         <input
           value={inputValue}
           placeholder="Search by title or by tags by prepending #..."
