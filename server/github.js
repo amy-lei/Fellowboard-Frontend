@@ -240,11 +240,14 @@ async function fetchUsers() {
       if (['TTP Fellows (Summer 2020)', 'CTF', 'MLH Fellows (Summer 2020)'].includes(team.name)) return;
       
       const members = team.members.nodes;
-
       members.forEach(user => {
+          const tags = ['contact', 'Summer-2020', team.name];
+          if (team.name.startsWith('Pod')) {
+            tags.push('Fellow');
+          }
           var singleUser = {
             'creator': 'server',
-            'tags': ['contact', team.name],
+            'tags': tags,
             'title': (user.name !== null) ? user.name : user.login.toLowerCase(),
             'type': 'contacts',
             'isPublic': true,
