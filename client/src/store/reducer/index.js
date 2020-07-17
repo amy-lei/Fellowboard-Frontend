@@ -66,6 +66,7 @@ export const reducer = (state, action) => {
          pinnedPosts: action.payload,
        }
      } 
+    }
     case "UPDATE_DISCORD": {
       const dbUser = state.dbUser;
       dbUser.discord = action.payload.discord;
