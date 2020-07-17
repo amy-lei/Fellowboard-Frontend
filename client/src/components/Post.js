@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { getDateDifference, toHexColor } from '../util';
 import pin_outline from '../assets/pin-outline.svg'; 
 import pin_filled from '../assets/pin-filled.svg'; 
+import { Icon } from "semantic-ui-react";
 
 function Post(props) {
     const [ isPinned, setIsPinned ] = useState(false); // MADE INTO A STATE FOR TESTING
@@ -63,11 +64,19 @@ function Post(props) {
                         src={props.content.avatar}
                         alt='Avatar'
                     />
-                    <ContactInfo icon={'user'} text={`${props.content.username} | ${props.content.pod}`}/>
-                    <ContactInfo icon={'mail'} text={props.content.mail}/>
-                    <ContactInfo icon={'location arrow'} text={props.content.location}/>
-                    <p>{props.content.bio}</p>
-                    <a href={props.content.github_url}>&#128279;</a>
+                    <div className='post-body_content-bio'>
+                        <ContactInfo 
+                            icon={'user'} 
+                            text={`${props.content.username} | ${props.content.pod}`}
+                        />
+                        <ContactInfo 
+                            icon={'mail'} 
+                            text={props.content.mail}
+                        />
+                        <ContactInfo icon={'location arrow'} text={props.content.location}/>
+                        <span>{props.content.bio}</span>
+                        <a href={props.content.github_url}>&#128279; Github Profile</a>
+                    </div>
                 </div>
             );
             break;
@@ -115,9 +124,9 @@ function Post(props) {
                     </h3>
                     {props.type !== 'contacts'
                         &&
-                    (<label className='creator'>
-                        Shared by {props.creator === 'server' ? 'Team GARY': props.creator}
-                    </label>)
+                        (<label className='creator'>
+                            Shared by {props.creator === 'server' ? 'Team GARY': props.creator}
+                        </label>)
                     }
                     <label className='time'>
                         Posted {timestamp}
@@ -142,7 +151,8 @@ function ContactInfo(props) {
     }
     
     return (
-        <div className='contact-info'>
+        <div className={`contact-info ${icon === 'user' ? 'name' : ''}`}>
+            <Icon name={icon}/>
             {text}
         </div>
     );
