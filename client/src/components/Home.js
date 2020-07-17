@@ -38,6 +38,7 @@ export default function Home() {
     username,
     avatarUrl,
     fullname,
+    discord
   } = dbUser;
   const handleLogout = () => {
     dispatch({
@@ -62,7 +63,7 @@ export default function Home() {
         </button>
         <div className="header">
           
-          <Profile {...{ githubId, username, avatarUrl, fullname }} />
+          <Profile {...{ githubId, username, avatarUrl, fullname, discord}} />
           <SearchBar setFilter={setFilter} />
         </div>
       </div>
