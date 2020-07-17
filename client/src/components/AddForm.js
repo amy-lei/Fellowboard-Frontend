@@ -6,6 +6,7 @@ import {
   Form,
 } from "semantic-ui-react";
 import { AuthContext } from "../App";
+import { BaseStyles, AvatarStack } from "@primer/components";
 
 function AddForm() {
   const { state, dispatch } = useContext(AuthContext);
@@ -34,6 +35,8 @@ function AddForm() {
   const confirmSubmit = async () => {
     const body = {...content};
     body.isPublic = isPublic;
+    if ('tags' in body)
+    body.tags = body.tags.concat(tags);
     const res = await fetch('/api/posts', {
       method: 'POST',
       headers: { "Content-type": "application/json" },
@@ -80,8 +83,8 @@ function AddForm() {
 
         const post = await res.json();
         dispatch({
-          type: 'POST',
-          payload: {post},
+          type: 'ADD_POST',
+          payload: { post },
         });
         reset(); // reset all states
         break;
@@ -98,7 +101,6 @@ function AddForm() {
           body: JSON.stringify(body),
         });
         const data = await res.json();
-        console.log(data);
         setContent(data); // body of the next PR
         setIsLoading(false);
         setShowConfirmation(true);
@@ -106,8 +108,6 @@ function AddForm() {
       default:
         break;
     }
-    // reset values
-
   }
 
   let formContent;
@@ -190,15 +190,30 @@ function AddForm() {
       );
     } else if (showConfirmation) {
       let preview;
+      const { content: data } = content;
       if (type === 'youtube') {
         preview = (
           <>
             <h3>{content.title}</h3>
-            <img src={content.content.thumbnails.url}/>
+            <img src={data.thumbnails.url}/>
           </>
         );
       } else if (type === 'github') {
-        preview = "GITHUB";
+        preview = (
+          <>
+            <h3>{content.title}</h3>
+            <label>{data.creator}</label>
+            <label>{data.state}</label>
+            <p>{data.body}</p>
+            <BaseStyles>
+              <AvatarStack>
+                {data.allAssignees.map((assignee, i) => (
+                  <img alt='assignee' src={assignee.avatar_url}/>
+                ))}
+              </AvatarStack>
+            </BaseStyles>
+          </>
+        )
       }
       formContent = (
         <div className='add-text'>
@@ -228,6 +243,8 @@ function AddForm() {
             :
             (<>
               <Form.Input
+                fluid
+                required
                 icon='linkify'
                 iconPosition='left'
                 onChange={(e, {value}) => setContent({...content, url: value})}
