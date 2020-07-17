@@ -37,6 +37,16 @@
             width: 100%;
         }
     }
+
+    &.github {
+        .add-text > p,
+        .add-text > label {
+            display: block;
+        }
+        .add-text > p {
+            margin-top: 1rem;
+        }
+    }
     
     &-submit {
         width: 100%;
@@ -97,6 +107,14 @@
 .loader.form {
     margin: auto;
 }
+
+.warning.icon.open {
+    color: $green !important;
+}
+.warning.icon.closed {
+    color: $red !important;
+}
+
 
 .submit-container {
     display: flex;

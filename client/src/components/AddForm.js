@@ -4,6 +4,7 @@ import {
   Button, 
   Icon, 
   Form,
+  List,
 } from "semantic-ui-react";
 import { AuthContext } from "../App";
 import { BaseStyles, AvatarStack } from "@primer/components";
@@ -199,12 +200,38 @@ function AddForm() {
           </>
         );
       } else if (type === 'github') {
+        const bullets = data.body.trim().split('-').filter(text => text.trim() !== '');
         preview = (
           <>
-            <h3>{content.title}</h3>
-            <label>{data.creator}</label>
-            <label>{data.state}</label>
-            <p>{data.body}</p>
+            <h3>
+              <Icon size ='large' name='warning sign' className={data.state}/>
+              {content.title}
+            </h3>
+            <label>
+              <strong>
+                Creator:
+              </strong>
+              &nbsp;{data.creator}
+            </label>
+            <label>
+              <strong>
+                Status:
+              </strong>
+              &nbsp;{data.state}
+            </label>
+            {
+              bullets.length === 1
+              ? <p>{data.body}</p>
+              : <List>
+                {
+                  bullets.map((datum, i) => (
+                    <List.Item key={i}>
+                      {datum}
+                    </List.Item>
+                  ))
+                }
+              </List>
+            }
             <BaseStyles>
               <AvatarStack>
                 {data.allAssignees.map((assignee, i) => (
