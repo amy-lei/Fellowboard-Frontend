@@ -49,7 +49,7 @@ if (process.env.ENV === "PRODUCTION") {
 app.get("/authenticate/user-posts", (req, res) => {
   const { ghUsername } = req.query;
   const queries = [
-    User.find({ username: ghUsername }),
+    User.findOne({ username: ghUsername }),
     Post.find({ $or: [{ creator: ghUsername }, { isPublic: true }] }),
   ];
   Promise.all(queries)

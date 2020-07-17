@@ -22,6 +22,7 @@ export const initialState = {
   proxy_url: process.env.REACT_APP_PROXY_URL,
   dbUser: {},
   posts: [],
+  selectedFilter: "explore",
 };
 
 export const reducer = (state, action) => {
@@ -47,6 +48,12 @@ export const reducer = (state, action) => {
         ...state,
         posts: action.payload.posts,
         dbUser: action.payload.dbUser,
+      };
+    }
+    case "FILTER": {
+      return {
+        ...state,
+        selectedFilter: action.payload.selectedFilter,
       };
     }
     default:

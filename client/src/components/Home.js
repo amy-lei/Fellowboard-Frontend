@@ -28,7 +28,7 @@ export default function Home() {
     return <Redirect to="/login" />;
   }
 
-  const { posts, user } = state;
+  const { posts, user, selectedFilter, dbUser } = state;
   const {
     login: username,
     id: githubId,
@@ -47,6 +47,19 @@ export default function Home() {
         return post.tags.find((tag) => ("#" + tag).startsWith(filter));
       }
       return post.title.toLowerCase().includes(filter.toLowerCase());
+    })
+    .filter((post) => {
+      switch (selectedFilter) {
+        case "dashboard": {
+          return dbUser.pinnedPosts.includes(post._id);
+        }
+        case "contacts": {
+          return post.type === "contacts";
+        }
+        default: {
+          return true;
+        }
+      }
     })
     .map((post) => <Post {...post} />);
 
