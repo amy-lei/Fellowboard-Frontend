@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
-import illustration from '../assets/illustration.svg';
+import { getUserPosts } from "../store/reducer/index";
 import "../styles/login.scss";
 
 export default function Login() {
@@ -36,11 +36,20 @@ export default function Login() {
         body: JSON.stringify(requestData),
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then(async (data) => {
           dispatch({
             type: "LOGIN",
             payload: { user: data, isLoggedIn: true },
           });
+          try {
+            const { dbUser, posts } = await getUserPosts(data, proxy_url);
+            dispatch({
+              type: "POSTS",
+              payload: { posts, dbUser },
+            });
+          } catch (error) {
+            console.error(error);
+          }
         })
         .catch((error) => {
           setData({
@@ -56,12 +65,12 @@ export default function Login() {
   }
 
   return (
-    <div className='login'>
+    <div className="login">
       <div className="login-container">
         {data.isLoading ? (
           <div className="loader"></div>
         ) : (
-          <div className='login-btn-container'>
+          <div className="login-btn-container">
             <a
               className="login-btn"
               href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
@@ -71,15 +80,13 @@ export default function Login() {
             >
               Login with Github
             </a>
-            <span className='login-btn-error'>
-              {data.errorMessage}
-            </span>
+            <span className="login-btn-error">{data.errorMessage}</span>
           </div>
         )}
       </div>
-      <div className='login-header'>
-        <h1 className='login-header_name'>fellowboard</h1>
-        <p className='login-header_tagline'>
+      <div className="login-header">
+        <h1 className="login-header_name">fellowboard</h1>
+        <p className="login-header_tagline">
           Navigate resources curated by fellows for fellows
         </p>
       </div>

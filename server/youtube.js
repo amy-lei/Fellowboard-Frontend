@@ -4,7 +4,7 @@ const Post = require('./models/Post');
 require('dotenv').config();
 
 const mongoConnectionURL = process.env.MONGODB_SRV; 
-
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const connectToDB = async () => {
     mongoose
     .connect(mongoConnectionURL, {
@@ -34,7 +34,7 @@ const getUploadedVideos = async (channelId, filterBy = "MLH Fellowship", tags = 
     // get the MLH channel
     const youtube = google.youtube("v3");
     const channel = await youtube.channels.list({
-        auth: process.env.YOUTUBE_API_KEY,
+        auth: YOUTUBE_API_KEY,
         part: "contentDetails,status",
         id: channelId,
     });
@@ -47,7 +47,7 @@ const getUploadedVideos = async (channelId, filterBy = "MLH Fellowship", tags = 
     const playlistId = channel.data.items[0].contentDetails.relatedPlaylists.uploads;
     const playlist = await youtube.playlistItems.list({
         playlistId,
-        auth: process.env.YOUTUBE_API_KEY,
+        auth: YOUTUBE_API_KEY,
         part: "snippet,status,contentDetails",
         maxResults: 50,
     });
@@ -77,6 +77,30 @@ const getUploadedVideos = async (channelId, filterBy = "MLH Fellowship", tags = 
     return videos
 }
 
+const getVideoData = async (videoId) => {
+    const youtube = google.youtube("v3");
+    const req = await youtube.videos.list({
+        id: videoId,
+        auth: YOUTUBE_API_KEY,
+        part: "snippet"
+    });
+  
+    const video = await req.data.items[0];
+    const post = {
+        tags: video.snippet.tags || [],
+        creator: "",
+        type: "youtube",
+        title: video.snippet.title,
+        content: {
+            id: video.id,
+            description: video.snippet.description,
+            thumbnails: video.snippet.thumbnails.standard
+        },
+        timestamp: new Date(),
+        isPublic: true
+    };
+    return post;
+}
 /**
  * Adds list of videos to DB, given that the videos are already formatted
  * to match the Post schema.
@@ -116,5 +140,5 @@ const prepopulateVideos = async () => {
 if (module === require.main) {
     prepopulateVideos().catch(console.error);
 }
-module.exports = { getUploadedVideos, addVideosToDb };
+module.exports = { getUploadedVideos, addVideosToDb, getVideoData };
 
