@@ -31,8 +31,22 @@ function AddForm() {
     setShowConfirmation(false);
   }
 
-  const confirmSubmit = () => {
-    // TODO: Make request, with body formatted based on type
+  const confirmSubmit = async () => {
+    const body = {...content};
+    body.isPublic = isPublic;
+    const res = await fetch('/api/posts', {
+      method: 'POST',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    
+    const post = await res.json();
+
+    dispatch({
+      type: 'ADD_POST',
+      payload: { post },
+    });
+
     reset();
   }
 
@@ -43,9 +57,11 @@ function AddForm() {
      * submit be responsible for making the request for creating the post.
      */
     e.preventDefault();
+    let body;
+    let res;
     switch(type) {
       case 'text':
-        const body = {
+        body = {
           type,
           tags,
           isPublic,
@@ -56,8 +72,7 @@ function AddForm() {
           },
           creator: state.dbUser.username, // change this to the creator's gh username
         }
-        console.log(body);
-        const res = await fetch('/api/posts', {
+        res = await fetch('/api/posts', {
           method: 'POST',
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(body),
@@ -68,15 +83,23 @@ function AddForm() {
           type: 'POST',
           payload: {post},
         });
-        console.log(post);
         reset(); // reset all states
         break;
       case 'youtube':
       case 'github':
         setIsLoading(true);
-        // TODO: once the API gets merged, make a request
-        // add the data to content
-        // set show confirmation to true to know to render the form
+        body = {
+          url: content.url,
+          creator: state.dbUser.username,
+        };
+        res = await fetch('/api/posts', {
+          method: 'POST',
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        console.log(data);
+        setContent(data); // body of the next PR
         setIsLoading(false);
         setShowConfirmation(true);
         break;
@@ -168,7 +191,12 @@ function AddForm() {
     } else if (showConfirmation) {
       let preview;
       if (type === 'youtube') {
-        preview = "YOUTUBE";
+        preview = (
+          <>
+            <h3>{content.title}</h3>
+            <img src={content.content.thumbnails.url}/>
+          </>
+        );
       } else if (type === 'github') {
         preview = "GITHUB";
       }
@@ -205,7 +233,21 @@ function AddForm() {
                 onChange={(e, {value}) => setContent({...content, url: value})}
                 value={content.url || ''}
               />
+              
               <TagForm tags={tags} setTags={setTags}/>
+              <Form.Group widths='equal'>
+                <Form.Radio
+                  label='Public'
+                  checked={isPublic}
+                  onChange={(e, {checked}) => setIsPublic(checked)}
+                />
+                
+                <Form.Radio
+                  label='Private'
+                  checked={!isPublic}
+                  onChange={(e, {checked}) => setIsPublic(!checked)}
+                />
+            </Form.Group>
               <button className='add-form-submit'>
                 Create
               </button>
