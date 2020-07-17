@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 if (process.env.ENV === "PRODUCTION") {
-  const reactPath = path.resolve(__dirname, "..", "build");
+  const reactPath = path.resolve(__dirname, "build");
   app.use(express.static(reactPath));
   app.get("*", (req, res) => {
     res.sendFile(path.join(reactPath, "index.html"));
