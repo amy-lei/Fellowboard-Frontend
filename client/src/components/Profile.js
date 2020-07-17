@@ -15,14 +15,13 @@ function Profile(props) {
             const body = {
                 "discord": username
             };
-            const res = await fetch('/api/posts', {
+            const res = await fetch(`/api/users/${state.dbUser.username}`, {
                 method: 'POST',
                 headers: { "Content-type": "application/json" },
                 body: JSON.stringify(body)
             });
             const data = await res.json();
-            if (res.status == 200) {
-                alert("Discord username updated!");
+            if (res.status === 200) {
                 setEditting(false);
                 setValue(username);
                 dispatch({
