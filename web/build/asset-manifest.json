@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5750c61f.chunk.css",
+    "main.js": "/static/js/main.81c947c6.chunk.js",
+    "main.js.map": "/static/js/main.81c947c6.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.09b85ec0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.09b85ec0.js.map",
+    "static/js/2.c1e85a3b.chunk.js": "/static/js/2.c1e85a3b.chunk.js",
+    "static/js/2.c1e85a3b.chunk.js.map": "/static/js/2.c1e85a3b.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.9993a71f284841b0d0a6c8fbb804d56a.js": "/precache-manifest.9993a71f284841b0d0a6c8fbb804d56a.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.5750c61f.chunk.css.map": "/static/css/main.5750c61f.chunk.css.map",
+    "static/js/2.c1e85a3b.chunk.js.LICENSE.txt": "/static/js/2.c1e85a3b.chunk.js.LICENSE.txt",
+    "static/media/cancel.svg": "/static/media/cancel.2040f220.svg",
+    "static/media/edit.svg": "/static/media/edit.b5e1292a.svg",
+    "static/media/login.scss": "/static/media/illustration.96e41f0b.svg",
+    "static/media/pin-filled.svg": "/static/media/pin-filled.8ce1b2c1.svg",
+    "static/media/pin-outline.svg": "/static/media/pin-outline.7c3df105.svg",
+    "static/media/save.svg": "/static/media/save.2f36ebaa.svg",
+    "static/media/search.svg": "/static/media/search.8d146a4a.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.09b85ec0.js",
+    "static/js/2.c1e85a3b.chunk.js",
+    "static/css/main.5750c61f.chunk.css",
+    "static/js/main.81c947c6.chunk.js"
+  ]
+}
