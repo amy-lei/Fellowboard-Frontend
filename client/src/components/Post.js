@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { getDateDifference, toHexColor } from '../util';
 import pin_outline from '../assets/pin-outline.svg'; 
 import pin_filled from '../assets/pin-filled.svg'; 
+import { AuthContext } from "../App";
 
 function Post(props) {
-    const [ isPinned, setIsPinned ] = useState(false); // MADE INTO A STATE FOR TESTING
-    const [ isHovered, setIsHovered ] = useState(isPinned);
+    const { state, dispatch } = useContext(AuthContext);
+    const [ isHovered, setIsHovered ] = useState(false);
+    const isPinned = props.pinnedPosts.has(props._id);
+    
+    const pinPost = async () => {
+        /**
+         * Update passed pin to be opposite of its current pin state
+         */
+        const updatedPins = isPinned 
+            ? state.dbUser.pinnedPosts.filter(_id =>  _id !== props._id)
+            : state.dbUser.pinnedPosts.concat(props._id)
+        const body = {
+            pinnedPosts: updatedPins,
+        }
+        const res = await fetch(`/api/users/${state.dbUser.username}/pins`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json'},
+            body: JSON.stringify(body),
+        });
+        const updatedUser = await res.json();
+        dispatch({
+            type: 'UPDATE_PINS',
+            payload: updatedPins,
+        });
+    }
 
     let content;
     switch(props.type.toLowerCase()) {
@@ -13,7 +37,7 @@ function Post(props) {
         case "text":
             content = (
                 <div className='post-body_content text'>
-                    {"link" in props.content 
+                    {"url" in props.content 
                         && (
                         <>
                             &#128279;  
@@ -74,7 +98,7 @@ function Post(props) {
         >
             {(isHovered || isPinned) && (
                 <img 
-                    onClick={() => setIsPinned(!isPinned)}
+                    onClick={pinPost}
                     className='post-pin' 
                     src={isPinned ? pin_filled : pin_outline}
                 />

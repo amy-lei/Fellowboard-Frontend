@@ -58,6 +58,15 @@ export const reducer = (state, action) => {
         posts,
       };
     }
+    case "UPDATE_PINS": {
+     return {
+       ...state,
+       dbUser: {
+         ...state.dbUser,
+         pinnedPosts: action.payload,
+       }
+     } 
+    }
     default:
       return state;
   }

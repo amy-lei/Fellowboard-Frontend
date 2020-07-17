@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
 import Post from "./Post";
@@ -13,6 +13,9 @@ import { getUserPosts } from "../store/reducer/index";
 export default function Home() {
   const [filter, setFilter] = useState("");
   const { state, dispatch } = useContext(AuthContext);
+  const pinnedPosts = useMemo(() => {
+    return new Set(state.dbUser.pinnedPosts)
+  }, [state.dbUser.pinnedPosts]);
 
   useEffect(() => {
     async function fetchData() {
@@ -49,7 +52,7 @@ export default function Home() {
       }
       return post.title.toLowerCase().includes(filter.toLowerCase());
     })
-    .map((post, i) => <Post key={i} {...post} />);
+    .map((post, i) => <Post key={i} {...post} pinnedPosts={pinnedPosts} user={dbUser}/>);
 
   return (
     <div className="home-container">
@@ -72,6 +75,7 @@ export default function Home() {
           {allPosts}
         </Masonry>
       </div>
+      <AddForm/>
     </div>
   );
 }
