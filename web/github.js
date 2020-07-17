@@ -87,7 +87,7 @@ async function fetchSingleIssue(org, repo, issue) {
         'tags': [repo, org],
         'title': data.title,
         'type': 'github',
-        'timestamp': new Date(data.created_at),
+        'timestamp': new Date(),
         'isPublic': true,
         'content': {
             'url': data.url,
@@ -158,7 +158,7 @@ async function fetchSinglePR(org, repo, pr) {
       'tags': [repo, org],
       'title': data.title,
       'type': "github",
-      'timestamp': new Date(data.created_at),
+      'timestamp': new Date(),
       'isPublic': true,
       'content': {
           'url': data.url,
@@ -238,12 +238,16 @@ async function fetchUsers() {
       team = obj.node;
 
       if (['TTP Fellows (Summer 2020)', 'CTF', 'MLH Fellows (Summer 2020)'].includes(team.name)) return;
-
+      
       const members = team.members.nodes;
       members.forEach(user => {
+          const tags = ['Summer-2020', team.name];
+          if (team.name.startsWith('Pod')) {
+            tags.push('Fellow');
+          }
           var singleUser = {
             'creator': 'server',
-            'tags': ['contact'],
+            'tags': tags,
             'title': (user.name !== null) ? user.name : user.login.toLowerCase(),
             'type': 'contacts',
             'isPublic': true,

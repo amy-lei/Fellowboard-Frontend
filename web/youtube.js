@@ -87,7 +87,7 @@ const getVideoData = async (videoId) => {
   
     const video = await req.data.items[0];
     const post = {
-        tags: video.snippet.tags,
+        tags: video.snippet.tags || [],
         creator: "",
         type: "youtube",
         title: video.snippet.title,
@@ -96,7 +96,7 @@ const getVideoData = async (videoId) => {
             description: video.snippet.description,
             thumbnails: video.snippet.thumbnails.standard
         },
-        timestamp: new Date(video.snippet.publishedAt),
+        timestamp: new Date(),
         isPublic: true
     };
     return post;
