@@ -41,6 +41,7 @@
                 color: $primary-caption-color;
             }
         }
+        &_content.github,
         &_content.contacts,
         &_content.youtube > a,
         &_content.text {
@@ -49,11 +50,13 @@
         &_content.contacts {
             display: flex;
             flex-direction: column;
-            // align-items: center;
-            
+        }
+        &_content.github {
+            & > .contact-info{
+                padding-top: 0;
+            }
         }
         &_content {
-            
             a {
                 text-decoration: none;
                 transition: 0.2s color ease-in;
@@ -64,7 +67,6 @@
             p {
                 margin-top: 0.5rem;
             }
-
             &-avatar {
                 width: 90%;
                 height: 90%;
@@ -72,7 +74,6 @@
                 object-fit: cover;
                 margin: auto;
             }
-        
             &-bio {
                 padding: 1rem 0;
                 display: flex;
