@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { getDateDifference, toHexColor } from '../util';
 import pin_outline from '../assets/pin-outline.svg'; 
 import pin_filled from '../assets/pin-filled.svg'; 
+import trash from '../assets/trash.svg'; 
 import { Icon } from "semantic-ui-react";
 import { AuthContext } from "../App";
 
@@ -122,7 +123,7 @@ function Post(props) {
             );
             break;
         default:
-            break; // TODO: account for discord
+            break;
     }
 
     const tags = props.tags.map((tag, i) => 
@@ -151,11 +152,11 @@ function Post(props) {
             onMouseOver={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >   {(isHovered) && (props.creator === state.dbUser.username || props.creator === "server") &&(
-                <Icon
+                <img
                     onClick={deletePost}
                     className='post-delete'
-                    name='trash alternate outline'
-                    size='large'
+                    src={trash}
+                    alt={'trash-can'}
                 />
             )}
             {(isHovered || isPinned) && (
