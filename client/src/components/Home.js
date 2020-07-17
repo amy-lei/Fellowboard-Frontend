@@ -9,6 +9,7 @@ import Masonry from "react-masonry-css";
 import { masonryBreakpoints } from "../constants";
 import AddForm from "./AddForm";
 import { getUserPosts } from "../store/reducer/index";
+import TopButton from "./TopButton";
 
 export default function Home() {
   const [filter, setFilter] = useState("");
@@ -57,15 +58,12 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <div className="header-container">
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-        <div className="header">
-          
-          <Profile {...{ githubId, username, avatarUrl, fullname, discord}} />
-          <SearchBar setFilter={setFilter} />
-        </div>
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
+      <div className="header">
+        <Profile {...{ githubId, username, avatarUrl, fullname, discord}} />
+        <SearchBar setFilter={setFilter} />
       </div>
       <div className="masonry-container">
         <Masonry
@@ -76,6 +74,7 @@ export default function Home() {
           {allPosts}
         </Masonry>
       </div>
+      <TopButton/>
       <AddForm/>
     </div>
   );

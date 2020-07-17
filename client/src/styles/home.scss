@@ -22,15 +22,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1.5rem 0;
 }
 
-.header-container {
-  position: sticky;
-  top: 0;
-  background-color: #fff;
-  z-index: 1000;
-  padding: 1.5rem;
-}
 
 @media ( max-width: 1000px) {
   .header {
@@ -54,4 +48,11 @@
   &:hover {
     opacity: 0.75;
   }
+}
+
+.scroll-button {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+
 }
