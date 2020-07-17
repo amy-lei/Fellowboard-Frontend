@@ -1,9 +1,11 @@
 const fetch = require('node-fetch');
 const mongoose = require("mongoose");
 const Post = require("./models/Post");
+const { auth } = require('google-auth-library');
 require("dotenv").config();
 
 const mongoConnectionURL = process.env.MONGODB_SRV; 
+const authHeader = `Bearer ${process.env.GITHUB_TOKEN}`; 
 
 const connectToDB = async () => {
     mongoose
@@ -30,7 +32,11 @@ var repo = "httpie";
 async function fetchIssues(org, repo) {
     await connectToDB();
     try {
-        fetch(`https://api.github.com/repos/${org}/${repo}/${issues}`)
+        fetch(`https://api.github.com/repos/${org}/${repo}/${issues}`, {
+          headers: {
+            Authorization: authHeader
+          }
+        })
         .then(response => response.json())
         .then(data => {
             var issues = [];
@@ -67,6 +73,36 @@ async function fetchIssues(org, repo) {
         console.log(err);
     }
 }
+
+async function fetchSingleIssue(org, repo, issue) {
+    try {
+      const resp = await fetch(`https://api.github.com/repos/${org}/${repo}/${issues}/${issue}`, {
+        headers: {
+          Authorization: authHeader
+          }
+      });
+      const data = await resp.json();
+      const post = {
+        'creator': '',
+        'tags': [repo, org],
+        'title': data.title,
+        'type': 'github',
+        'timestamp': new Date(),
+        'isPublic': true,
+        'content': {
+            'url': data.url,
+            'body': data.body,
+            'state': data.state,
+            'creator': data.user.login,
+            'allAssignees': data.assignees
+        }
+      };
+      return post;
+    } catch (err) {
+      console.log(err);
+    }
+}
+
 
 async function fetchPRs(org, repo) {
     await connectToDB();
@@ -107,6 +143,35 @@ async function fetchPRs(org, repo) {
     } catch(err) {
         console.log(err);
     }
+}
+
+async function fetchSinglePR(org, repo, pr) {
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${org}/${repo}/${pullRequests}/${pr}`, {
+      headers: {
+        Authorization: authHeader
+        }
+    });
+    const data = await resp.json();
+    const post = {
+      'creator': '',
+      'tags': [repo, org],
+      'title': data.title,
+      'type': "github",
+      'timestamp': new Date(),
+      'isPublic': true,
+      'content': {
+          'url': data.url,
+          'body': data.body,
+          'state': data.state,
+          'creator': data.user.login,
+          'allAssignees': data.assignees
+      }
+    }
+    return post;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 const query = `
@@ -173,12 +238,16 @@ async function fetchUsers() {
       team = obj.node;
 
       if (['TTP Fellows (Summer 2020)', 'CTF', 'MLH Fellows (Summer 2020)'].includes(team.name)) return;
-
+      
       const members = team.members.nodes;
       members.forEach(user => {
+          const tags = ['Summer-2020', team.name];
+          if (team.name.startsWith('Pod')) {
+            tags.push('Fellow');
+          }
           var singleUser = {
             'creator': 'server',
-            'tags': ['contact'],
+            'tags': tags,
             'title': (user.name !== null) ? user.name : user.login.toLowerCase(),
             'type': 'contacts',
             'isPublic': true,
@@ -219,4 +288,4 @@ if (module === require.main) {
   fetchUsers().catch(console.error);
 }
 
-module.exports = {fetchIssues, fetchPRs, fetchUsers};
+module.exports = {fetchIssues, fetchPRs, fetchUsers, fetchSingleIssue, fetchSinglePR};
