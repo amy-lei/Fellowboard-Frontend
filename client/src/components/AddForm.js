@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { toHexColor } from '../util';
 import { 
   Button, 
   Icon, 
   Form,
 } from "semantic-ui-react";
+import { AuthContext } from "../App";
 
 function AddForm() {
+  const { state, dispatch } = useContext(AuthContext);
+
   const [ open, setOpen ] = useState(false);
   const [ type, setType ] = useState('');
   const [ content, setContent ] = useState({});
@@ -51,15 +54,20 @@ function AddForm() {
             description: content.description || '',
             url: content.url || '',
           },
-          creator: 'server', // change this to the creator's gh username
+          creator: state.dbUser.username, // change this to the creator's gh username
         }
-        const post = await fetch('/api/posts', {
+        console.log(body);
+        const res = await fetch('/api/posts', {
           method: 'POST',
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(body),
         });
 
-        // TODO: update state with new post
+        const post = await res.json();
+        dispatch({
+          type: 'POST',
+          payload: {post},
+        });
         console.log(post);
         reset(); // reset all states
         break;
