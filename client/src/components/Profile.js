@@ -15,7 +15,7 @@ function Profile(props) {
             const body = {
                 "discord": username
             };
-            const res = await fetch(`/api/users/${state.dbUser.username}`, {
+            const res = await fetch(`https://fellowboard-gary-backend.herokuapp.com/api/users/${state.dbUser.username}`, {
                 method: 'POST',
                 headers: { "Content-type": "application/json" },
                 body: JSON.stringify(body)

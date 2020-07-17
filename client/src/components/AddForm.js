@@ -43,7 +43,7 @@ function AddForm() {
     body.isPublic = isPublic;
     if ('tags' in body)
     body.tags = body.tags.concat(tags);
-    const res = await fetch('/api/posts', {
+    const res = await fetch('https://fellowboard-gary-backend.herokuapp.com/api/posts', {
       method: 'POST',
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
@@ -81,7 +81,7 @@ function AddForm() {
           },
           creator: state.dbUser.username,
         }
-        res = await fetch('/api/posts', {
+        res = await fetch('https://fellowboard-gary-backend.herokuapp.com/api/posts', {
           method: 'POST',
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(body),
@@ -102,7 +102,7 @@ function AddForm() {
             url: content.url.trim(),
             creator: state.dbUser.username,
           };
-          res = await fetch('/api/posts', {
+          res = await fetch('https://fellowboard-gary-backend.herokuapp.com/api/posts', {
             method: 'POST',
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(body),

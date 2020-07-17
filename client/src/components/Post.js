@@ -16,7 +16,7 @@ function Post(props) {
     const deletePost = async () => {
         try {
             const id = props._id;
-            const res = await fetch(`/api/posts/${id}`, {
+            const res = await fetch(`https://fellowboard-gary-backend.herokuapp.com/api/posts/${id}`, {
                 method: 'DELETE'
             });
             if(res.status === 200) {
@@ -39,7 +39,7 @@ function Post(props) {
         const body = {
             pinnedPosts: updatedPins,
         }
-        const res = await fetch(`/api/users/${state.dbUser.username}/pins`, {
+        const res = await fetch(`https://fellowboard-gary-backend.herokuapp.com/api/users/${state.dbUser.username}/pins`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json'},
             body: JSON.stringify(body),
