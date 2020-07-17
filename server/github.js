@@ -240,6 +240,7 @@ async function fetchUsers() {
       if (['TTP Fellows (Summer 2020)', 'CTF', 'MLH Fellows (Summer 2020)'].includes(team.name)) return;
       
       const members = team.members.nodes;
+
       members.forEach(user => {
           var singleUser = {
             'creator': 'server',
