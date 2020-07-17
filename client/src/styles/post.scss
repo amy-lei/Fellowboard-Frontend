@@ -4,6 +4,7 @@
     display: flex;
     margin-left: -30px; /* gutter size offset */
 }
+
 .my-masonry-grid_column {
     padding-left: 30px; /* gutter size */
     background-clip: padding-box;
@@ -17,20 +18,17 @@
 .post {
     position: relative;
     width: 100%;
-    // box-shadow: $smooth-shadow;
     border-radius: $radius;
 
     &-body {
         border-radius: $radius;
-        // border-radius: $radius $radius 0 0;
         background-color: $post-color;
         &_header {
-            padding: 2rem 1.5rem 1rem 1.5rem;
+            padding: 2.5rem 2.5rem 1rem 2.5rem;
             margin-top: 1rem;
             .title {
                 font-size: $header-font-size;
                 margin-bottom: 0.25rem;
-                margin-top: 1rem;
             }
             .creator,
             .time {
@@ -46,7 +44,7 @@
         &_content.contacts,
         &_content.youtube > a,
         &_content.text {
-            padding: 0 1.5rem 2rem 1.5rem;
+            padding: 0 2.5rem 2rem 2.5rem;
         }
         &_content.contacts {
             display: flex;
@@ -104,24 +102,26 @@
         background-color: $tag-container-color;
     }
 
+    &-delete,
     &-pin {
         opacity: .75;
         position: absolute;
-        right: 0;
         top: 0;
-        width: 25px;
-        margin-top: 0.5rem;
-        margin-right: 0.5rem;
         cursor: pointer;
     }
 
+    &-pin {
+        width: 25px;
+        right: 0;
+        margin-top: 0.5rem;
+        margin-right: 0.5rem;
+    }
+
     &-delete {
-        position: absolute;
+        width: 17px;
         left: 0;
-        top: 0;
-        padding-top: 0.6rem;
-        padding-left: 1rem;
-        cursor: pointer;
+        margin-top: 0.75rem;
+        margin-left: 0.75rem;
     }
 }
 

@@ -50,7 +50,7 @@ app.get("/authenticate/user-posts", (req, res) => {
   const { ghUsername } = req.query;
   const queries = [
     User.findOne({ username: ghUsername }),
-    Post.find({ $or: [{ creator: ghUsername }, { isPublic: true }] }),
+    Post.find({ $or: [{ creator: ghUsername }, { isPublic: true }] }).sort({ timestamp: -1 }),
   ];
   Promise.all(queries)
     .then(([dbUser, posts]) => {

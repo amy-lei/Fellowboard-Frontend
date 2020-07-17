@@ -1,15 +1,37 @@
+.form-enter {
+    opacity: 0;
+}
+.form-enter-active {
+    opacity: 1;
+    transition: opacity 200ms;
+}
+.form-exit {
+    opacity: 1;
+}
+.form-exit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+}
+
 .add-btn {
     z-index: 1000;
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
     background-color: $accent-color !important;
-    transition: transform 0.5s ease-in;
+    transition: all 0.5s ease-in;
     &:hover {
         background-color: $accent-color-shade !important;
     }
     & > i {
         color: white;
+    }
+
+    &.opened {
+        animation: open 0.5s forwards;
+    }
+    &.closed {
+        animation: close 0.5s forwards;
     }
     
 }
@@ -21,11 +43,8 @@
     border-radius: $radius;
     width: fit-content;
     box-shadow: $smooth-shadow;
-    transition: width, height 0.1s ease-in;
-    &.opened {
-        animation: fade-in 0.2s ease-in forwards;
-    }
 
+    &.youtube,
     &.youtube,
     &.github,
     &.text {
@@ -50,6 +69,17 @@
     
     &-submit {
         width: 100%;
+    }
+    &-error {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        .ui.icon.header > i {
+            font-size: 5em;
+        }
+        .ui.icon.header > .sub.header {
+            font-size: 18px !important;
+        }
     }
 }
 

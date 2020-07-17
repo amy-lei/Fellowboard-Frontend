@@ -63,13 +63,13 @@ export default function Home() {
     .filter((post) => {
       switch (selectedFilter) {
         case "dashboard": {
-          return dbUser.pinnedPosts.includes(post._id);
+          return pinnedPosts.has(post._id);
         }
         case "contacts": {
           return post.type === "contacts";
         }
         default: {
-          return true;
+          return post.type !== "contacts";
         }
       }
     })
@@ -88,7 +88,7 @@ export default function Home() {
       </div>
       <div className="masonry-container">
         <Masonry
-          className="my-masonry-grid posts"
+          className={`my-masonry-grid posts ${state.selectedFilter}`}
           columnClassName="my-masonry-grid_column"
           breakpointCols={masonryBreakpoints}
         >

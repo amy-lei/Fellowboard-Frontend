@@ -109,7 +109,7 @@ async function getPostsFromChannelMessages(channel) {
                         if (e.thumbnail) {
                             posts.push({
                                 "creator": "server",
-                                "tags": [channelName],
+                                "tags": [channelName, "MLH-discord"],
                                 "title": e.title ? e.title : `${channelName} Post`,
                                 "type": "discord",
                                 "timestamp": new Date(msg.createdTimestamp),
@@ -124,7 +124,7 @@ async function getPostsFromChannelMessages(channel) {
                         else {
                             posts.push({
                                 "creator": "server",
-                                "tags": [channelName],
+                                "tags": [channelName, "MLH-discord"],
                                 "title": e.title ? e.title : `${channelName} Post`,
                                 "type": "text",
                                 "timestamp": new Date(msg.createdTimestamp),
