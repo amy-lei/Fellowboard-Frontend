@@ -96,7 +96,7 @@ const getVideoData = async (videoId) => {
             description: video.snippet.description,
             thumbnails: video.snippet.thumbnails.standard
         },
-        timestamp: new Date(video.snippet.publishedAt),
+        timestamp: new Date(),
         isPublic: true
     };
     return post;

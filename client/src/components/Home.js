@@ -49,25 +49,29 @@ export default function Home() {
       }
       return post.title.toLowerCase().includes(filter.toLowerCase());
     })
-    .map((post) => <Post {...post} />);
+    .map((post, i) => <Post key={i} {...post} />);
 
   return (
     <div className="home-container">
-      <button className="logout-btn" onClick={handleLogout}>
-        Logout
-      </button>
-      <div className="header">
-        <Profile {...{ githubId, username, avatarUrl, fullname }} />
-        <SearchBar setFilter={setFilter} />
+      <div className="header-container">
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+        <div className="header">
+          
+          <Profile {...{ githubId, username, avatarUrl, fullname }} />
+          <SearchBar setFilter={setFilter} />
+        </div>
       </div>
-      <Masonry
-        className="my-masonry-grid posts"
-        columnClassName="my-masonry-grid_column"
-        breakpointCols={masonryBreakpoints}
-      >
-        {allPosts}
-      </Masonry>
-      <AddForm/>
+      <div className="masonry-container">
+        <Masonry
+          className="my-masonry-grid posts"
+          columnClassName="my-masonry-grid_column"
+          breakpointCols={masonryBreakpoints}
+        >
+          {allPosts}
+        </Masonry>
+      </div>
     </div>
   );
 }
