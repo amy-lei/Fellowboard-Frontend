@@ -241,7 +241,7 @@ async function fetchUsers() {
       
       const members = team.members.nodes;
       members.forEach(user => {
-          const tags = ['contact', 'Summer-2020', team.name];
+          const tags = ['Summer-2020', team.name];
           if (team.name.startsWith('Pod')) {
             tags.push('Fellow');
           }
