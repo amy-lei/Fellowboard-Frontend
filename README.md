@@ -1,7 +1,8 @@
 # Fellowboard
 <p align="center"><img src="https://github.com/amy-lei/dashboard/blob/master/client/public/illustration.png?raw=true" width="80%"></p>
 
-### Motivation
+
+## Motivation
 
 Beyond just contributing to open source projects, the MLH Fellowship offers opportunities to learn new skills and develop new connections. With over 20 channels dedicated to tech topics in the Discord channel and with workshops happening nearly everyday, there's a lot to takeaway from these 12-weeks. And it can also be incredibly overwhelming to manage it all.
 
@@ -10,7 +11,7 @@ That is where Fellowboard comes in. **Fellowboard** is a platform for fellows to
 <p align="center"><img src="https://github.com/amy-lei/dashboard/blob/master/client/public/img1.png?raw=true" width="70%"></p><p align="center">
 
 
-### Running the app locally
+## Local Setup
 
 To run the backend locally:
 1. `cd server`
@@ -24,5 +25,14 @@ To run the frontend locally:
 
 Then, navigate to `http://localhost:3000/` and access your dashboard!
 
-### Technologies Used
+## Technologies Used
 React, Node, Express, MongoDB
+
+## Authors
+- Amy Lei
+- Yaheng Su
+- Rachel Liu
+- Rodrigo Medina
+
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details
