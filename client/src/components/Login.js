@@ -43,7 +43,6 @@ export default function Login() {
           });
           try {
             const { dbUser, posts } = await getUserPosts(data, proxy_url);
-            console.log(dbUser, posts)
             dispatch({
               type: "POSTS",
               payload: { posts, dbUser },
