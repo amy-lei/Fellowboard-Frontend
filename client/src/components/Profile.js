@@ -43,7 +43,7 @@ function Profile(props) {
                     <input
                         value={value}
                         onChange={e => setValue(e.target.value)}
-                        placeholder="Set discord username"
+                        placeholder="name#XXXX"
                         className="profile-discord_input"
                     />
                     <img
@@ -61,7 +61,7 @@ function Profile(props) {
                         value={value}
                         className="profile-discord_input"
                     >
-                        {props.discord || "Set discord username"}
+                        {props.discord || "name#XXXX"}
                     </label>
                     <img
                         src={edit}

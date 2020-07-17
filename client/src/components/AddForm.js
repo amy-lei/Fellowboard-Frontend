@@ -4,6 +4,7 @@ import {
   Button, 
   Icon, 
   Form,
+  List,
 } from "semantic-ui-react";
 import { AuthContext } from "../App";
 import { BaseStyles, AvatarStack } from "@primer/components";
@@ -73,7 +74,7 @@ function AddForm() {
             description: content.description || '',
             url: content.url || '',
           },
-          creator: state.dbUser.username, // change this to the creator's gh username
+          creator: state.dbUser.username,
         }
         res = await fetch('/api/posts', {
           method: 'POST',
@@ -86,13 +87,13 @@ function AddForm() {
           type: 'ADD_POST',
           payload: { post },
         });
-        reset(); // reset all states
+        reset();
         break;
       case 'youtube':
       case 'github':
         setIsLoading(true);
         body = {
-          url: content.url,
+          url: content.url.trim(),
           creator: state.dbUser.username,
         };
         res = await fetch('/api/posts', {
@@ -147,7 +148,7 @@ function AddForm() {
       formContent = (
         <Form className='add-text' onSubmit={submit}>
           <h3>
-          <Icon name='sticky note'/>Post new note
+            Post new note
           </h3>            
           <Form.Input
             fluid
@@ -183,7 +184,7 @@ function AddForm() {
               onChange={(e, {checked}) => setIsPublic(!checked)}
             />
           </Form.Group>
-          <button className='add-form-submit'>
+          <button className='add-form-submit btn-outline'>
             Create
           </button>
         </Form>
@@ -199,12 +200,38 @@ function AddForm() {
           </>
         );
       } else if (type === 'github') {
+        const bullets = data.body.trim().split('-').filter(text => text.trim() !== '');
         preview = (
           <>
-            <h3>{content.title}</h3>
-            <label>{data.creator}</label>
-            <label>{data.state}</label>
-            <p>{data.body}</p>
+            <h3>
+              <Icon size ='large' name='warning sign' className={data.state}/>
+              {content.title}
+            </h3>
+            <label>
+              <strong>
+                Creator:
+              </strong>
+              &nbsp;{data.creator}
+            </label>
+            <label>
+              <strong>
+                Status:
+              </strong>
+              &nbsp;{data.state}
+            </label>
+            {
+              bullets.length === 1
+              ? <p>{data.body}</p>
+              : <List>
+                {
+                  bullets.map((datum, i) => (
+                    <List.Item key={i}>
+                      {datum}
+                    </List.Item>
+                  ))
+                }
+              </List>
+            }
             <BaseStyles>
               <AvatarStack>
                 {data.allAssignees.map((assignee, i) => (
@@ -218,18 +245,20 @@ function AddForm() {
       formContent = (
         <div className='add-text'>
           {preview}
-          <button 
-            className='add-form_submit'
-            onClick={reset}
-          >
-              Cancel
-          </button>
-          <button 
-            className='add-form_submit'
-            onClick={confirmSubmit}
-          >
-              Confirm
-          </button>
+          <div className='submit-container'> 
+            <button 
+              className='add-form_submit btn-outline'
+              onClick={reset}
+            >
+                Cancel
+            </button>
+            <button 
+              className='add-form_submit btn-outline'
+              onClick={confirmSubmit}
+            >
+                Confirm
+            </button>
+          </div>
         </div>
         
       )
@@ -237,16 +266,20 @@ function AddForm() {
       const title = type === 'youtube' ? 'Post a Youtube Video' : 'Post from Github';
       formContent = (
         <Form className='add-text' onSubmit={submit}>
-          <h3><Icon name={type}/>{title}</h3>
+          <h3>
+            {title}
+          </h3>
           {isLoading 
-            ? (<div className='loader'></div>)
+            ? (<div className='loader form'></div>)
             :
             (<>
               <Form.Input
                 fluid
                 required
+                label='URL'
                 icon='linkify'
                 iconPosition='left'
+                placeholder={`Enter a ${type} link`}
                 onChange={(e, {value}) => setContent({...content, url: value})}
                 value={content.url || ''}
               />
@@ -254,18 +287,20 @@ function AddForm() {
               <TagForm tags={tags} setTags={setTags}/>
               <Form.Group widths='equal'>
                 <Form.Radio
+                  fluid
                   label='Public'
                   checked={isPublic}
                   onChange={(e, {checked}) => setIsPublic(checked)}
                 />
                 
                 <Form.Radio
+                  fluid
                   label='Private'
                   checked={!isPublic}
                   onChange={(e, {checked}) => setIsPublic(!checked)}
                 />
             </Form.Group>
-              <button className='add-form-submit'>
+              <button className='add-form-submit btn-outline'>
                 Create
               </button>
             </>)
@@ -334,6 +369,8 @@ function TagForm(props) {
       </div>
       <Form.Input
         label='Tags'
+        icon='hashtag'
+        iconPosition='left'
         placeholder='Add a comma to confirm the tag'
         value={value}
         onChange={addTag}

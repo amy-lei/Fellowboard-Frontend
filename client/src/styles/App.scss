@@ -38,3 +38,29 @@ h6 {
 a { 
     color: $primary-font-color;
 }
+
+.btn-outline {
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    border-radius: 50rem;
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: 0.1s opacity ease-in;
+    &:hover {
+        opacity: 0.75;
+    }
+}
+
+.ui.input > input {
+    border-top: none !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-radius: 0 !important;
+}
+
+
+button:focus,
+button:active {
+    outline: none;
+}

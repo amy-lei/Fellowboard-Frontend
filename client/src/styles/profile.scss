@@ -20,10 +20,11 @@
 
     &-name {
         font-size: $title-font-size;
+        margin-bottom: 0;
     }
 
     &-discord {
-        width: 20rem;
+        width: 13rem;
         display: flex;
         align-items: center;
         & > img {
@@ -38,17 +39,26 @@
             }
         }
         
+        label {
+            font-size: 20px;
+        }
+
         input {
+            font-size: 18px;
+            flex-grow: 1;
             border: none;
-            border-bottom: 1px solid rgba(0,0,0,0.5);
+            padding-bottom: 0.25rem;
+            border-bottom: 1px solid rgba(0,0,0,0.3);
+            transition: color 0.2s ease-in-out;
             &:focus {
                 outline: none;
+                border-color: $primary-color;
             }
         }
         
         &_input {
             color: grey;
-            width: 10rem;
+            width: fit-content;
             padding-bottom: 0.25rem;
             transition: 0.1s border ease-in;
             
