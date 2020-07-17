@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { getDateDifference, toHexColor } from '../util';
 import pin_outline from '../assets/pin-outline.svg'; 
 import pin_filled from '../assets/pin-filled.svg'; 
+import { Icon } from "semantic-ui-react";
 import { AuthContext } from "../App";
 
 function Post(props) {
@@ -32,10 +33,21 @@ function Post(props) {
     }
 
     let content;
-    switch(props.type.toLowerCase()) {
+    const { type } = props;
+    switch(type.toLowerCase()) {
         case "discord":
         case "text":
+            let thumbnail;
+            if (type === 'discord') {
+                thumbnail = (
+                    <img
+                        src={props.content.thumbnail.url}
+                        className='post-body_thumbnail'
+                    />
+                );
+            }
             content = (
+            <>
                 <div className='post-body_content text'>
                     {"url" in props.content 
                         && (
@@ -50,6 +62,8 @@ function Post(props) {
                         {props.content.description}
                     </p>
                 </div>
+                {thumbnail}
+            </>
             )
             break;
         case "youtube":
@@ -64,6 +78,30 @@ function Post(props) {
                     src={props.content.thumbnails.url}
                 /> 
             </div>
+            );
+            break;
+        case "contacts":
+            content = (
+                <div className='post-body_content contacts'>
+                    <img
+                        className='post-body_content-avatar'
+                        src={props.content.avatar}
+                        alt='Avatar'
+                    />
+                    <div className='post-body_content-bio'>
+                        <ContactInfo 
+                            icon={'user'} 
+                            text={`${props.content.username} | ${props.content.pod}`}
+                        />
+                        <ContactInfo 
+                            icon={'mail'} 
+                            text={props.content.mail}
+                        />
+                        <ContactInfo icon={'location arrow'} text={props.content.location}/>
+                        <span>{props.content.bio}</span>
+                        <a href={props.content.github_url}>&#128279; Github Profile</a>
+                    </div>
+                </div>
             );
             break;
         default:
@@ -108,9 +146,12 @@ function Post(props) {
                     <h3 className='title'>
                         {props.title}
                     </h3>
-                    <label className='creator'>
-                        Shared by {props.creator}
-                    </label>
+                    {props.type !== 'contacts'
+                        &&
+                        (<label className='creator'>
+                            Shared by {props.creator === 'server' ? 'Team GARY': props.creator}
+                        </label>)
+                    }
                     <label className='time'>
                         Posted {timestamp}
                     </label>
@@ -127,3 +168,16 @@ function Post(props) {
 export default Post;
 
 
+function ContactInfo(props) {
+    const { icon, text } = props;
+    if (!text) {
+        return <></>;
+    }
+    
+    return (
+        <div className={`contact-info ${icon === 'user' ? 'name' : ''}`}>
+            <Icon name={icon}/>
+            {text}
+        </div>
+    );
+}
