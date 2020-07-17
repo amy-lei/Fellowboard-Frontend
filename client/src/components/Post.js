@@ -10,6 +10,23 @@ function Post(props) {
     const [ isHovered, setIsHovered ] = useState(false);
     const isPinned = props.pinnedPosts.has(props._id);
     
+    
+    const deletePost = async () => {
+        try {
+            const id = props._id;
+            const res = await fetch(`/api/posts/${id}`, {
+                method: 'DELETE'
+            });
+            if(res.status === 200) {
+                dispatch({
+                    type: 'DELETE_POST',
+                    payload: {id: id}
+                })
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
     const pinPost = async () => {
         /**
          * Update passed pin to be opposite of its current pin state
@@ -53,7 +70,7 @@ function Post(props) {
                         && (
                         <>
                             &#128279;  
-                            <a href={props.content.url} target="_blank">
+                            <a href={props.content.url} target="_blank" rel="noopener noreferrer">
                                 Resource 
                             </a>
                         </>
@@ -69,7 +86,7 @@ function Post(props) {
         case "youtube":
             content = (
             <div className='post-body_content youtube'>
-                <a href={`https://www.youtube.com/watch?v=${props.content.id}`} target="_blank">
+                <a href={`https://www.youtube.com/watch?v=${props.content.id}`} target="_blank" rel="noopener noreferrer">
                     &#128279;  
                     Video link
                 </a>
@@ -133,12 +150,20 @@ function Post(props) {
             className='post'
             onMouseOver={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-        >
+        >   {(isHovered) && (props.creator === state.dbUser.username || props.creator === "server") &&(
+                <Icon
+                    onClick={deletePost}
+                    className='post-delete'
+                    name='trash alternate outline'
+                    size='large'
+                />
+            )}
             {(isHovered || isPinned) && (
                 <img 
                     onClick={pinPost}
                     className='post-pin' 
                     src={isPinned ? pin_filled : pin_outline}
+                    width='25px'
                 />
             )}
             <section className='post-body'>

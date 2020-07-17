@@ -75,6 +75,14 @@ export const reducer = (state, action) => {
         dbUser,
       };
     }
+    case "DELETE_POST": {
+      const id = action.payload.id;
+      const posts = state.posts.filter(e => e._id !== id);
+      return {
+        ...state,
+        posts
+      }
+    }
     default:
       return state;
   }
