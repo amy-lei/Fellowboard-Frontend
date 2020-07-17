@@ -27,7 +27,7 @@ export default function Login() {
         client_secret: state.client_secret,
         code: newUrl[1],
       };
-
+      console.log(requestData);
       const proxy_url = state.proxy_url;
 
       // Use code parameter and other parameters to make POST request to proxy_server
@@ -41,12 +41,15 @@ export default function Login() {
             type: "LOGIN",
             payload: { user: data, isLoggedIn: true },
           });
+          console.log("before")
           try {
             const { dbUser, posts } = await getUserPosts(data, proxy_url);
+            console.log("here")
             dispatch({
               type: "POSTS",
               payload: { posts, dbUser },
             });
+
           } catch (error) {
             console.error(error);
           }
