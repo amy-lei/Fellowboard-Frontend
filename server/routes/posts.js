@@ -79,6 +79,8 @@ router.post('/', async (req, res, next) => {
 
                     res.status(200).send(pr);
                 }
+            } else {
+                res.status(404).send({ err: "URL not valid"});
             }
         }
         else if (req.body.title) {

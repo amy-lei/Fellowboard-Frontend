@@ -27,6 +27,7 @@
     }
 
     &.youtube,
+    &.youtube,
     &.github,
     &.text {
         width: 25rem;
@@ -50,6 +51,17 @@
     
     &-submit {
         width: 100%;
+    }
+    &-error {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        .ui.icon.header > i {
+            font-size: 5em;
+        }
+        .ui.icon.header > .sub.header {
+            font-size: 18px !important;
+        }
     }
 }
 

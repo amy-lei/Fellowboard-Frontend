@@ -5,6 +5,7 @@ import {
   Icon, 
   Form,
   List,
+  Header,
 } from "semantic-ui-react";
 import { AuthContext } from "../App";
 import { BaseStyles, AvatarStack } from "@primer/components";
@@ -12,6 +13,7 @@ import { BaseStyles, AvatarStack } from "@primer/components";
 function AddForm() {
   const { state, dispatch } = useContext(AuthContext);
 
+  const [ error, setError ] = useState('');
   const [ open, setOpen ] = useState(false);
   const [ type, setType ] = useState('');
   const [ content, setContent ] = useState({});
@@ -31,6 +33,7 @@ function AddForm() {
     setIsPublic(false);
     setIsLoading(false);
     setShowConfirmation(false);
+    setError('');
   }
 
   const confirmSubmit = async () => {
@@ -92,19 +95,27 @@ function AddForm() {
       case 'youtube':
       case 'github':
         setIsLoading(true);
-        body = {
-          url: content.url.trim(),
-          creator: state.dbUser.username,
-        };
-        res = await fetch('/api/posts', {
-          method: 'POST',
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(body),
-        });
-        const data = await res.json();
-        setContent(data); // body of the next PR
-        setIsLoading(false);
-        setShowConfirmation(true);
+        try {
+          body = {
+            url: content.url.trim(),
+            creator: state.dbUser.username,
+          };
+          res = await fetch('/api/posts', {
+            method: 'POST',
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(body),
+          });
+          const data = await res.json();
+          if (res.status !== 200) {
+            setError(data.err);
+          } else {
+            setContent(data); // body of the next PR
+            setShowConfirmation(true);
+          }
+          setIsLoading(false);
+        } catch (err) {
+          console.log(err);
+        } 
         break;
       default:
         break;
@@ -261,6 +272,33 @@ function AddForm() {
           </div>
         </div>
         
+      )
+    } else if (error !== '') {
+      const title = type === 'youtube' ? 'Post a Youtube Video' : 'Post from Github';
+
+      formContent = (
+        <div className='add-text add-form-error'>
+          <Header as='h3' icon>
+            <Icon size='massive' name='warning sign'/>
+            <Header.Subheader>
+              Not a valid {type} link.
+            </Header.Subheader>
+          </Header>
+          <div className='submit-container'>
+            <button
+              className='btn-outline'
+              onClick={reset}
+            >
+              Cancel
+            </button>
+            <button
+              className='btn-outline'
+              onClick={() => setError('')}
+            >
+              Try again
+            </button>
+          </div>
+        </div>
       )
     } else if (type === 'youtube' || type === 'github') {
       const title = type === 'youtube' ? 'Post a Youtube Video' : 'Post from Github';

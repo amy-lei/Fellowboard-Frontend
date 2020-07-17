@@ -88,7 +88,7 @@ export default function Home() {
       </div>
       <div className="masonry-container">
         <Masonry
-          className="my-masonry-grid posts"
+          className={`my-masonry-grid posts ${state.selectedFilter}`}
           columnClassName="my-masonry-grid_column"
           breakpointCols={masonryBreakpoints}
         >
