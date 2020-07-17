@@ -24,6 +24,14 @@
   align-items: center;
 }
 
+.header-container {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 1000;
+  padding: 1.5rem;
+}
+
 @media ( max-width: 1000px) {
   .header {
     justify-content: flex-start;

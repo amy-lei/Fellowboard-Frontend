@@ -87,7 +87,7 @@ async function fetchSingleIssue(org, repo, issue) {
         'tags': [repo, org],
         'title': data.title,
         'type': 'github',
-        'timestamp': new Date(data.created_at),
+        'timestamp': new Date(),
         'isPublic': true,
         'content': {
             'url': data.url,
@@ -158,7 +158,7 @@ async function fetchSinglePR(org, repo, pr) {
       'tags': [repo, org],
       'title': data.title,
       'type': "github",
-      'timestamp': new Date(data.created_at),
+      'timestamp': new Date(),
       'isPublic': true,
       'content': {
           'url': data.url,
