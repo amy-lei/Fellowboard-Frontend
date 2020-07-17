@@ -46,6 +46,8 @@ if (process.env.ENV === "PRODUCTION") {
   });
 }
 
+app.get("/", (req, res) => res.send("hello there :)"));
+
 app.get("/authenticate/user-posts", (req, res) => {
   const { ghUsername } = req.query;
   const queries = [
