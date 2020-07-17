@@ -8,6 +8,7 @@ const User = require("./models/User");
 const Post = require("./models/Post");
 const postRouter = require("./routes/posts.js");
 const userRouter = require("./routes/user.js");
+const api = require("./api.js");
 require("dotenv").config();
 
 // connect to database
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: "text/*" }));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/api", api);
 app.use("/api/posts", postRouter);
 app.use("/api/users", userRouter);
 app.use((req, res, next) => {
