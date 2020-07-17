@@ -2,17 +2,19 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import search from "../assets/search.svg";
 import { AuthContext } from "../App";
 function SearchBar(props) {
+  const [focus, setFocus] = useState(false);
   const scrollRef = useRef(null);
   const menuRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
 
   const handleScroll = () => {
+    const toFocus = focus ? 'focus' : '';
     const position = window.pageYOffset;
     if (position < 300) {
-      scrollRef.current.className = "search";
+      scrollRef.current.className = "search " + toFocus;
       menuRef.current.className = "menu-list";
     } else if (position >= 100) {
-      scrollRef.current.className = "search fixed";
+      scrollRef.current.className = "search fixed " + toFocus;
       menuRef.current.className = "menu-list fixed";
     }
   };
@@ -40,16 +42,19 @@ function SearchBar(props) {
 
   return (
     <section className='nav'>
-      <div ref={scrollRef} className="search">
+      <div ref={scrollRef} className={`search ${focus ? 'focus' : ''}`}>
         <input
+          inputRef
           value={inputValue}
           placeholder="Search by title or by tags by prepending #..."
           onChange={handleOnChange}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
           onKeyUp={() => props.setFilter(inputValue)}
         />
         <img
           src={search}
-          className="search-btn"
+          className={`search-btn ${focus ? 'focus' : ''}`}
           onClick={() => props.setFilter(inputValue)}
         />
       </div>

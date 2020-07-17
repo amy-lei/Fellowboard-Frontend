@@ -5,12 +5,18 @@
   z-index: 1000;
   color: lightgray;
   width: 35rem;
-  background-color: $post-color;
+  // background-color: $post-color;
+  background-color: white;
+  border: 1px solid lightgrey;
   border-radius: 50rem;
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 1.5rem;
   transition: all 0.25s ease-in;
+  &.focus {
+    border: 1px solid $grey;
+  }
+
   &.fixed {
     top: 5vh;
   }
@@ -20,7 +26,12 @@
 
   & > img {
     width: 25px;
+    opacity: .35;
+    transition: all 0.25s ease-in;
     cursor: pointer;
+    &.focus {
+      opacity: .75;
+    }
   }
 
   & > input {
