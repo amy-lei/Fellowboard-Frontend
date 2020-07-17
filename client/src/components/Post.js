@@ -37,7 +37,7 @@ function Post(props) {
         case "text":
             content = (
                 <div className='post-body_content text'>
-                    {"link" in props.content 
+                    {"url" in props.content 
                         && (
                         <>
                             &#128279;  
