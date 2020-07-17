@@ -1,11 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import save from '../assets/save.svg';
 import edit from '../assets/edit.svg';
 import cancel from '../assets/cancel.svg';
+import { AuthContext } from '../App';
 
 function Profile(props) {
+    const {state, dispatch} = useContext(AuthContext);
     const [ value, setValue ] = useState(props.discord || "");
     const [ editting, setEditting ] = useState(false);
+
+    
+    const setDiscordUsername = async (username) => {
+        try {
+            const body = {
+                "discord": username
+            };
+            const res = await fetch('/api/posts', {
+                method: 'POST',
+                headers: { "Content-type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (res.status == 200) {
+                alert("Discord username updated!");
+                setEditting(false);
+                setValue(username);
+                dispatch({
+                    type: 'UPDATE_DISCORD',
+                    payload: {discord: username}
+                });
+            }
+            
+        } catch (err) {
+            console.log(err);
+        }     
+    }
+
 
     const discord = (
         <span className='profile-discord'>
@@ -19,7 +49,7 @@ function Profile(props) {
                     />
                     <img
                         src={save}
-                        onClick={()=> {alert("saved discord username"); setEditting(false)}}
+                        onClick={async () => setDiscordUsername(value)}
                     />
                     <img
                         src={cancel}

@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const User = require("../models/User.js");
+const mongoose = require("mongoose");
 
 router.get('/:username', async (req, res, next) => {
     const username = req.params.username;
@@ -18,8 +19,6 @@ router.get('/:username', async (req, res, next) => {
 router.post('/:username/pins', async (req, res, next) => {
     const username = req.params.username;
     const newPins = req.body.pinnedPosts;
-    const ids = newPins.map(e => mongoose.Types.ObjectId(e));
-
     try {
         const user = await User.findOneAndUpdate({username: username}, {"pinnedPosts": ids}).exec();
         res.status(200).send(user);
