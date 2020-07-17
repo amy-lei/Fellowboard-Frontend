@@ -58,7 +58,25 @@ export const reducer = (state, action) => {
         posts,
       };
     }
+    case "UPDATE_PINS": {
+     return {
+       ...state,
+       dbUser: {
+         ...state.dbUser,
+         pinnedPosts: action.payload,
+       }
+     } 
+    }
+    case "UPDATE_DISCORD": {
+      const dbUser = state.dbUser;
+      dbUser.discord = action.payload.discord;
+      return {
+        ...state,
+        dbUser,
+      };
+    }
     default:
       return state;
   }
+
 };

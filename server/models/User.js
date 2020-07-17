@@ -17,7 +17,7 @@ const UserSchema = new Schema({
   },
   fullname: { type: String, default: '' },
   discord: { type: String, default: '' },
-  pinnedPosts: { type: [mongoose.Types.ObjectId], default: [] },
+  pinnedPosts: { type: Array, default: [] },
 });
 
 // Exports the model
